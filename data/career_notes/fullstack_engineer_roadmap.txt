@@ -1,0 +1,90 @@
+Document Title: Fullstack Engineer Career Roadmap
+Document Category: Career Paths
+Last Updated: 2026-06-20
+
+# Fullstack Engineer Career Roadmap
+
+## Overview
+
+A Fullstack Engineer works across the entire application stack, from database design to user interface. This versatile role requires breadth across frontend, backend, and infrastructure, with depth in at least one area.
+
+## Core Concepts
+
+### Frontend Responsibilities
+- Build responsive, accessible user interfaces
+- Implement state management and data fetching
+- Optimize performance and user experience
+- Write tests for UI components and pages
+
+### Backend Responsibilities
+- Design and implement RESTful or GraphQL APIs
+- Build database schemas and optimize queries
+- Implement authentication and authorization
+- Handle background jobs and async processing
+
+### Deployment Responsibilities
+- Containerize applications with Docker
+- Set up CI/CD pipelines
+- Deploy to cloud platforms (AWS, GCP, Azure)
+- Monitor application health and performance
+
+### System Design
+- Monolith vs microservices architecture
+- Database selection (SQL vs NoSQL)
+- Caching strategies
+- Message queues and event-driven patterns
+- API design and versioning
+
+## Required Skills
+
+### Frontend Skills
+1. HTML/CSS/JavaScript - Core web technologies
+2. React or Vue - Component-based UI frameworks
+3. TypeScript - Type-safe JavaScript development
+4. CSS Frameworks - Tailwind CSS, styled-components
+
+### Backend Skills
+1. Python or Node.js - Server-side programming
+2. SQL - Database design and querying
+3. REST APIs - API design and implementation
+4. Authentication - JWT, OAuth, session management
+
+### DevOps Skills
+1. Docker - Containerization
+2. Git - Version control and collaboration
+3. CI/CD - GitHub Actions, GitLab CI
+4. Cloud - AWS, GCP, or Azure basics
+
+## Common Mistakes
+
+- Trying to be expert in everything without depth anywhere
+- Ignoring testing across the full stack
+- Not considering security at each layer
+- Building frontend and backend separately without integration testing
+- Neglecting database design and optimization
+- Skipping documentation for API contracts
+
+## Best Practices
+
+- Choose a primary depth area while maintaining breadth
+- Build full-stack projects that demonstrate end-to-end skills
+- Write tests at every layer (unit, integration, e2e)
+- Use TypeScript across the entire stack when possible
+- Implement proper logging and monitoring from day one
+- Document API contracts and architectural decisions
+
+## Learning Resources
+
+- The Odin Project (free full-stack curriculum)
+- Full Stack Open (University of Helsinki)
+- "Fullstack React" by Anthony Accomazzo
+- AWS Certified Cloud Practitioner
+- System Design Interview by Alex Xu
+
+## Next Steps
+
+1. Build a complete full-stack project (frontend + backend + deployment)
+2. Learn Docker and deploy your project to a cloud platform
+3. Study system design for technical interviews
+4. Choose a specialization area for deeper expertise
+5. Contribute to open source full-stack projects

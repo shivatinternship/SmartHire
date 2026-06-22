@@ -1,0 +1,90 @@
+Document Title: Machine Learning Engineer Career Roadmap
+Document Category: Career Paths
+Last Updated: 2026-06-20
+
+# Machine Learning Engineer Career Roadmap
+
+## Overview
+
+A Machine Learning Engineer bridges data science and software engineering, building production-ready ML systems that operate at scale. This role focuses on the full ML lifecycle: data pipelines, model training, deployment, monitoring, and optimization.
+
+## Core Concepts
+
+### ML Lifecycle
+1. Data Collection and Validation - Ensure data quality and availability
+2. Feature Engineering - Transform raw data into model-ready features
+3. Model Training - Select algorithms, tune hyperparameters, validate
+4. Model Evaluation - Metrics, bias testing, A/B testing
+5. Model Deployment - Serve models in production environments
+6. Monitoring - Track performance, detect drift, trigger retraining
+
+### MLOps
+- CI/CD pipelines for ML models (GitHub Actions, GitLab CI)
+- Experiment tracking (MLflow, Weights & Biases)
+- Model versioning and registry
+- Automated retraining pipelines
+- Infrastructure as Code (Terraform, CloudFormation)
+
+### Model Serving
+- REST API endpoints (FastAPI, Flask, TF Serving)
+- Batch prediction pipelines
+- Edge deployment (ONNX, TensorRT, TFLite)
+- Model optimization (quantization, pruning, distillation)
+- Real-time vs batch serving trade-offs
+
+### Production Systems
+- Distributed training (data parallelism, model parallelism)
+- GPU/TPU utilization optimization
+- Feature stores (Feast, Tecton)
+- Data versioning (DVC)
+- A/B testing infrastructure
+
+## Required Skills
+
+### Technical Skills
+1. Python - Production-grade code, not just notebooks
+2. C++ or Java - For performance-critical components
+3. ML Frameworks - PyTorch, TensorFlow, JAX
+4. Cloud Platforms - AWS SageMaker, GCP Vertex AI, Azure ML
+5. Containerization - Docker, Kubernetes
+6. Databases - SQL, NoSQL, vector databases (Pinecone, Weaviate, FAISS)
+
+### Systems Skills
+1. Software Engineering - Clean code, design patterns, testing
+2. Distributed Systems - MapReduce, Spark, Kafka
+3. DevOps - CI/CD, monitoring, logging
+4. System Design - Scalable ML architectures
+
+## Common Mistakes
+
+- Building models in notebooks without production considerations
+- Ignoring data pipeline reliability and monitoring
+- Not testing model behavior on edge cases
+- Deploying models without performance baselines
+- Neglecting model explainability in regulated industries
+- Over-engineering solutions when simpler approaches work
+
+## Best Practices
+
+- Design for failure - ML systems have more failure modes than traditional software
+- Build comprehensive monitoring from day one
+- Use feature stores to ensure training-serving consistency
+- Implement rollback strategies for model deployments
+- Write tests for data pipelines and model behavior
+- Keep models simple until complexity is justified by metrics
+
+## Learning Resources
+
+- "Designing Machine Learning Systems" by Chip Huyen
+- Made With ML (free online resource by Goku Mohandas)
+- Google ML Engineering courses
+- AWS Machine Learning Specialty certification
+- MLOps Community meetups and resources
+
+## Next Steps
+
+1. Build a portfolio project with end-to-end deployment
+2. Learn Docker and Kubernetes for containerization
+3. Practice with cloud ML services (AWS SageMaker or GCP Vertex AI)
+4. Study system design for ML interviews
+5. Contribute to open source ML infrastructure projects

@@ -1,0 +1,96 @@
+Document Title: Data Analyst Career Roadmap
+Document Category: Career Paths
+Last Updated: 2026-06-20
+
+# Data Analyst Career Roadmap
+
+## Overview
+
+A Data Analyst transforms raw data into actionable insights that drive business decisions. This role sits at the intersection of technology, statistics, and business strategy. Data Analysts are in high demand across every industry, from healthcare to finance to e-commerce.
+
+## Core Concepts
+
+### Daily Responsibilities
+- Query databases to extract and analyze data
+- Build dashboards and reports for stakeholders
+- Clean and validate data for accuracy
+- Conduct A/B testing and statistical analysis
+- Present findings to non-technical audiences
+- Collaborate with product and engineering teams
+
+### Career Progression
+
+#### Entry Level (0-2 years)
+- Learn SQL and database fundamentals
+- Master Excel and pivot tables
+- Build proficiency in Python (Pandas, NumPy, Matplotlib)
+- Understand descriptive statistics
+- Create 3-5 portfolio projects with real datasets
+- Get comfortable with data cleaning and wrangling
+
+#### Mid Level (2-5 years)
+- Advanced SQL (window functions, CTEs, optimization)
+- Master a BI tool (Tableau or Power BI)
+- Learn inferential statistics and hypothesis testing
+- Introduction to machine learning (regression, classification)
+- Lead analytics projects end-to-end
+- Mentor junior analysts
+
+#### Senior Level (5+ years)
+- Strategic business partnering with executives
+- Advanced statistical modeling and forecasting
+- Data architecture and pipeline design
+- Team leadership and hiring
+- Executive-level communication and storytelling
+- Drive data-informed culture across the organization
+
+## Required Skills
+
+### Technical Skills
+1. SQL - Essential for data querying and manipulation
+2. Python - Primary language for analysis (Pandas, NumPy, Matplotlib, Seaborn)
+3. Excel - Advanced functions, pivot tables, VLOOKUP
+4. Tableau or Power BI - Interactive dashboard creation
+5. Statistics - Descriptive, inferential, hypothesis testing
+6. Database fundamentals - Relational databases, data modeling
+
+### Soft Skills
+1. Communication - Translating data into plain language
+2. Critical thinking - Questioning assumptions and validating findings
+3. Business acumen - Understanding industry context and KPIs
+4. Attention to detail - Catching data quality issues early
+5. Storytelling - Crafting compelling narratives from numbers
+
+## Common Mistakes
+
+- Focusing only on tools without understanding the "why" behind analysis
+- Presenting data without context or actionable recommendations
+- Ignoring data quality and cleaning steps
+- Using overly technical jargon with non-technical stakeholders
+- Not validating results before sharing findings
+- Building dashboards nobody uses because they were not consulted
+
+## Best Practices
+
+- Always start with the business question, not the data
+- Document your analysis process and assumptions
+- Validate data quality before drawing conclusions
+- Tailor your presentation to your audience
+- Learn to say "I don't know" when data is insufficient
+- Build reusable templates and queries for common analyses
+
+## Learning Resources
+
+- Google Data Analytics Professional Certificate
+- IBM Data Analyst Professional Certificate
+- "Storytelling with Data" by Cole Nussbaumer Knaflic
+- Mode Analytics SQL Tutorial
+- Kaggle datasets for practice projects
+
+## Next Steps
+
+1. Complete a structured course (Google or IBM certificate)
+2. Build a portfolio with 3-5 projects on GitHub
+3. Practice SQL daily on platforms like LeetCode or HackerRank
+4. Network with analysts on LinkedIn and attend local meetups
+5. Apply for junior analyst roles and internships

@@ -1,0 +1,49 @@
+# Career Development Roadmap
+
+## Data Analyst Career Path
+
+### Entry Level (0-2 years)
+- Learn SQL and database fundamentals
+- Master Excel and basic data visualization
+- Learn Python for data analysis (Pandas, NumPy)
+- Understand statistics basics
+- Build 3-5 portfolio projects
+
+### Mid Level (2-5 years)
+- Advanced SQL and database optimization
+- Master Tableau or Power BI
+- Learn machine learning basics
+- Lead small analytics projects
+- Mentor junior analysts
+
+### Senior Level (5+ years)
+- Strategic business partnering
+- Advanced statistical modeling
+- Team leadership
+- Data architecture decisions
+- Executive communication
+
+## Key Skills Development
+
+### Technical Skills
+1. SQL - Essential for data querying
+2. Python - Primary programming language
+3. Visualization tools - Tableau, Power BI, matplotlib
+4. Statistics - Foundation of analysis
+5. Machine Learning - Advanced analytics
+
+### Soft Skills
+1. Communication - Presenting findings clearly
+2. Problem-solving - Analytical thinking
+3. Business acumen - Understanding domain context
+4. Stakeholder management - Working with teams
+5. Storytelling with data - Compelling narratives
+
+## Portfolio Projects
+
+### Recommended Projects
+1. Exploratory Data Analysis on public datasets
+2. Dashboard creation for business metrics
+3. A/B test analysis simulation
+4. Customer segmentation project
+5. Time series forecasting project

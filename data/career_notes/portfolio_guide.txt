@@ -1,0 +1,102 @@
+Document Title: Portfolio Development Guide
+Document Category: Resume and Career
+Last Updated: 2026-06-20
+
+# Portfolio Development Guide
+
+## Overview
+
+A strong portfolio demonstrates your skills through real-world projects. It is often more important than a resume for technical roles, as it provides concrete evidence of your abilities. A well-curated portfolio can compensate for lack of experience and differentiate you from other candidates.
+
+## Core Concepts
+
+### Project Selection
+
+#### What Makes a Strong Portfolio Project
+- Solves a real problem or addresses a genuine need
+- Demonstrates multiple skills (frontend, backend, database, etc.)
+- Includes clean, well-documented code
+- Has a live demo or deployed version
+- Shows your ability to think beyond tutorials
+
+#### Recommended Project Types
+1. Full-stack web application (e-commerce, task manager, social platform)
+2. Data analysis or visualization project
+3. Machine learning model with deployment
+4. API with documentation and tests
+5. Open source contribution to a known project
+6. Mobile application or browser extension
+
+### GitHub Best Practices
+- Clean README for every project (problem, solution, tech stack, setup)
+- Consistent commit messages with meaningful descriptions
+- Organized repository structure with clear folder hierarchy
+- Include a LICENSE file for open source projects
+- Pin your best repositories on your profile
+- Write comprehensive documentation in docs/ folder
+
+### Portfolio Websites
+- Clean, professional design (your site is a project itself)
+- Mobile responsive across all devices
+- Fast loading times (optimize images, use CDNs)
+- Contact form or email link for recruiters
+- Links to GitHub, LinkedIn, and live demos
+- Regular updates with new projects
+
+### Demonstrating Impact
+- Quantify results where possible (users, performance, revenue)
+- Explain the problem you solved and why it matters
+- Describe your technical decisions and trade-offs
+- Include before/after metrics when applicable
+- Show the evolution of your thinking through commit history
+
+## Required Skills
+
+### Technical Skills
+1. Git and GitHub - Version control and collaboration
+2. README Writing - Clear project documentation
+3. Deployment - Vercel, Netlify, Heroku, or AWS
+4. Testing - Write tests for your projects
+5. Documentation - Inline comments and external docs
+
+### Presentation Skills
+1. Writing - Clear, concise project descriptions
+2. Visual Design - Clean layouts and interfaces
+3. Storytelling - Explaining your development process
+4. Demo Creation - Recording project walkthroughs
+
+## Common Mistakes
+
+- Including only tutorial-based projects
+- Not deploying projects (only showing code)
+- Poor or missing README documentation
+- Cluttered GitHub with too many small repositories
+- Not explaining the problem each project solves
+- Using the same tech stack for every project
+- Including personal information (address, date of birth)
+
+## Best Practices
+
+- Quality over quantity (3-5 strong projects beat 20 weak ones)
+- Each project should demonstrate different skills
+- Deploy every project and include live links
+- Write detailed READMEs with screenshots and setup instructions
+- Include tests and CI/CD configuration
+- Show your process through git commit history
+- Keep your portfolio updated with recent work
+
+## Learning Resources
+
+- "The Portfolio Handbook" by Andrea Mignolo
+- GitHub Pages documentation (free portfolio hosting)
+- Vercel and Netlify deployment guides
+- "Show Your Work" by Austin Kleon
+- Personal branding courses on LinkedIn Learning
+
+## Next Steps
+
+1. Audit your current portfolio and remove weak projects
+2. Improve READMEs for your top 3 projects
+3. Deploy any undeployed projects
+4. Create a personal portfolio website
+5. Start a new project that fills a gap in your skill demonstration

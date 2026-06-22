@@ -1,0 +1,109 @@
+Document Title: Internship Search and Success Guide
+Document Category: Resume and Career
+Last Updated: 2026-06-20
+
+# Internship Search and Success Guide
+
+## Overview
+
+Internships are the most effective bridge between education and full-time employment. They provide hands-on experience, industry connections, and often lead to full-time offers. Starting your search early and applying strategically maximizes your chances of landing a quality internship.
+
+## Core Concepts
+
+### Internship Search Strategy
+
+#### Timeline
+- Start searching 3-6 months before the desired start date
+- Fall internships: Apply August-October
+- Summer internships: Apply August-December (big tech), January-March (startups)
+- Spring internships: Apply October-November
+
+#### Where to Apply
+1. Company career pages (direct applications)
+2. LinkedIn (follow companies, set job alerts)
+3. Handshake (university-specific platform)
+4. AngelList/Wellfound (startups)
+5. Glassdoor and Indeed
+6. Career fairs and networking events
+7. University career services and alumni networks
+
+#### Application Strategy
+- Customize resume and cover letter for each role
+- Apply to 50-100+ positions (competition is fierce)
+- Track applications in a spreadsheet
+- Follow up after 1-2 weeks if no response
+- Apply to both large companies and startups
+
+### Interview Preparation
+
+#### Technical Interviews
+- Practice coding on LeetCode, HackerRank, or CodeSignal
+- Study data structures and algorithms fundamentals
+- Do mock interviews with peers or platforms like Pramp
+- Review the company's tech stack and prepare accordingly
+- Prepare questions about the team and projects
+
+#### Behavioral Interviews
+- Prepare STAR stories for common questions
+- Research the company's mission, values, and products
+- Practice explaining your projects clearly
+- Prepare thoughtful questions for the interviewer
+- Show enthusiasm and genuine interest in the role
+
+### Making the Most of Your Internship
+- Set clear goals with your manager in the first week
+- Ask questions and seek feedback regularly
+- Document your accomplishments and impact
+- Network with colleagues across teams
+- Volunteer for challenging projects
+- Request a return offer or referral before leaving
+
+## Required Skills
+
+### Job Search Skills
+1. Resume Writing - Tailored, ATS-optimized resumes
+2. Networking - Building professional relationships
+3. Interview Preparation - Technical and behavioral
+4. Follow-up - Thank you emails, status inquiries
+5. Time Management - Managing multiple applications
+
+### Professional Skills
+1. Communication - Written and verbal
+2. Time Management - Meeting deadlines and priorities
+3. Teamwork - Collaborating effectively
+4. Problem-solving - Taking initiative
+5. Adaptability - Learning new tools quickly
+
+## Common Mistakes
+
+- Only applying to big tech companies (ignore startups and mid-size)
+- Sending the same resume to every application
+- Not preparing for technical interviews
+- Skipping the follow-up after interviews
+- Being passive during the internship
+- Not networking during the internship
+
+## Best Practices
+
+- Start early and apply consistently
+- Tailor each application to the specific role
+- Build a strong online presence (LinkedIn, GitHub)
+- Practice coding daily during interview preparation
+- Send personalized thank-you emails after interviews
+- Treat the internship as a 12-week job interview
+
+## Learning Resources
+
+- "Cracking the Coding Interview" by Gayle Laakmann McDowell
+- LeetCode Premium for interview practice
+- LinkedIn Learning professional development courses
+- University career services workshops
+- "The Internship Bible" by David Ellis
+
+## Next Steps
+
+1. Update your resume and LinkedIn profile
+2. Research target companies and their internship programs
+3. Start a daily coding practice routine
+4. Attend career fairs and networking events
+5. Apply to at least 5 internships this week

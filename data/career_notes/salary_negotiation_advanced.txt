@@ -1,0 +1,106 @@
+Document Title: Advanced Salary Negotiation Guide
+Document Category: Resume and Career
+Last Updated: 2026-06-20
+
+# Advanced Salary Negotiation Guide
+
+## Overview
+
+Salary negotiation is one of the highest-ROI activities in your career. A single successful negotiation can increase your lifetime earnings by hundreds of thousands of dollars. Most employers expect negotiation and leave room in their initial offer for it.
+
+## Core Concepts
+
+### Negotiation Scripts
+
+#### When Receiving an Initial Offer
+"Thank you so much for this offer. I'm very excited about the opportunity. I'd like to take a day or two to review the full compensation package. Could you send the details in writing?"
+
+#### When Countering
+"Based on my research of market rates for this role, and considering my experience in [specific skill], I was hoping we could discuss a base salary of $X. I'm very excited about this role and believe this would better reflect the value I'll bring."
+
+#### When They Say No
+"I understand there are budget constraints. Are there other areas of the package we could explore, such as signing bonus, additional PTO, or a performance review timeline?"
+
+### Offer Evaluation Framework
+
+#### Total Compensation Components
+1. Base Salary - Guaranteed annual income
+2. Signing Bonus - One-time payment for joining
+3. Annual Bonus - Performance-based variable pay
+4. Equity/Stock Options - Ownership stake (vesting schedule matters)
+5. Benefits - Health, dental, vision, 401(k) match
+6. Perks - Remote work, learning budget, wellness stipends
+7. PTO - Vacation days, sick leave, holidays
+
+#### Evaluating the Full Package
+- Calculate the total first-year compensation (not just base)
+- Consider the vesting schedule for equity (4-year with 1-year cliff is standard)
+- Factor in cost of living for the location
+- Evaluate non-monetary benefits (flexibility, growth, culture)
+- Compare against your current total compensation
+
+### Compensation Research
+
+#### Market Data Sources
+- Levels.fyi (tech compensation data)
+- Glassdoor salary reports
+- Payscale and Salary.com
+- Blind (anonymous employee discussions)
+- LinkedIn salary insights
+
+#### Research Strategy
+- Search for the specific role and level at the company
+- Look at 3-5 data points for reliable estimates
+- Consider company size, location, and industry
+- Factor in years of experience required
+- Account for remote vs on-site differences
+
+## Required Skills
+
+### Negotiation Skills
+1. Research - Know your market value before negotiating
+2. Communication - Express your needs clearly and professionally
+3. Patience - Do not accept or counter immediately
+4. Confidence - Believe in your value and worth
+5. Flexibility - Be open to creative compensation structures
+
+### Financial Literacy
+1. Total Compensation - Understand all components beyond base salary
+2. Equity - Vesting schedules, strike prices, dilution
+3. Tax Implications - How different compensation structures are taxed
+4. Benefits Valuation - Calculate the monetary value of benefits
+
+## Common Mistakes
+
+- Accepting the first offer without negotiating
+- Negotiating without researching market rates
+- Making ultimatums or being aggressive
+- Focusing only on base salary and ignoring total compensation
+- Not considering the growth trajectory of the company
+- Accepting a higher salary at a company with poor growth potential
+
+## Best Practices
+
+- Always negotiate (even if the offer is good)
+- Get the offer in writing before negotiating
+- Negotiate over the phone or video call, not email
+- Use collaborative language ("I was hoping we could explore")
+- Have a clear target number and a walk-away number
+- Negotiate multiple components, not just salary
+- Send a thank-you note after the negotiation
+
+## Learning Resources
+
+- "Never Split the Difference" by Chris Voss
+- "Getting to Yes" by Roger Fisher
+- Haseeb Qureshi's salary negotiation blog posts
+- Levels.fyi for tech compensation data
+- "Women Don't Ask" by Linda Babcock
+
+## Next Steps
+
+1. Research your market value using Levels.fyi and Glassdoor
+2. Calculate your current total compensation
+3. Practice your negotiation script with a friend
+4. Write down your target and walk-away numbers
+5. Prepare to negotiate your next offer with confidence

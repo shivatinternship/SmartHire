@@ -1,0 +1,92 @@
+Document Title: Data Scientist Career Roadmap
+Document Category: Career Paths
+Last Updated: 2026-06-20
+
+# Data Scientist Career Roadmap
+
+## Overview
+
+A Data Scientist builds predictive models and extracts insights from complex datasets using statistics, machine learning, and programming. This role requires deeper mathematical foundations than a Data Analyst and focuses on building systems that learn from data.
+
+## Core Concepts
+
+### Daily Responsibilities
+- Design and run experiments (A/B tests, causal inference)
+- Build and validate machine learning models
+- Perform feature engineering and selection
+- Collaborate with engineers to deploy models
+- Communicate findings to technical and non-technical audiences
+- Stay current with research papers and new techniques
+
+### Career Progression
+
+#### Entry Level (0-2 years)
+- Strong foundation in statistics and probability
+- Python proficiency with NumPy, Pandas, Scikit-learn
+- Understand supervised and unsupervised learning
+- Build 3-5 end-to-end ML projects
+- Learn data Wrangling and preprocessing techniques
+
+#### Mid Level (2-5 years)
+- Advanced ML techniques (ensemble methods, deep learning basics)
+- Model deployment and MLOps fundamentals
+- Feature engineering for complex datasets
+- Experiment design and causal inference
+- Lead ML projects from prototype to production
+
+#### Senior Level (5+ years)
+- Research new techniques and evaluate for production use
+- Design ML system architecture
+- Mentor junior data scientists
+- Drive data science strategy with leadership
+- Publish findings and contribute to open source
+
+## Required Skills
+
+### Technical Skills
+1. Python - NumPy, Pandas, Scikit-learn, Matplotlib, Seaborn
+2. Statistics - Hypothesis testing, Bayesian inference, regression analysis
+3. Machine Learning - Supervised, unsupervised, ensemble methods
+4. SQL - Complex queries, window functions, optimization
+5. Deep Learning - TensorFlow or PyTorch basics
+6. Version Control - Git for code management
+
+### Mathematics
+1. Linear Algebra - Vectors, matrices, eigendecomposition
+2. Calculus - Gradient descent, optimization
+3. Probability - Distributions, Bayes theorem, maximum likelihood
+4. Statistics - Confidence intervals, p-values, effect sizes
+
+## Common Mistakes
+
+- Jumping to complex models before understanding the data
+- Ignoring overfitting and not validating on held-out data
+- Not considering business impact when selecting models
+- Failing to communicate uncertainty in predictions
+- Using accuracy as the only metric for imbalanced datasets
+- Neglecting feature engineering in favor of algorithm complexity
+
+## Best Practices
+
+- Start with simple baselines before building complex models
+- Always split data into train/validation/test sets
+- Use cross-validation for reliable performance estimates
+- Document model assumptions and limitations
+- Monitor model performance in production for drift
+- Collaborate closely with domain experts for feature engineering
+
+## Learning Resources
+
+- Andrew Ng's Machine Learning Specialization (Coursera)
+- "Hands-On Machine Learning" by Aurelien Geron
+- "An Introduction to Statistical Learning" (free textbook)
+- Kaggle competitions for practice
+- Fast.ai Practical Deep Learning course
+
+## Next Steps
+
+1. Strengthen statistics and linear algebra foundations
+2. Complete a structured ML course with projects
+3. Compete in Kaggle competitions to build skills
+4. Build an end-to-end project with model deployment
+5. Pursue certifications (Google Professional ML Engineer, AWS ML Specialty)

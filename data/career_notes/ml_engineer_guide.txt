@@ -1,0 +1,61 @@
+# Machine Learning Engineer Career Guide
+
+## Required Skills
+
+### Programming
+- Python (primary language)
+- R (for statistical analysis)
+- SQL (for data queries)
+- Git version control
+
+### Machine Learning Frameworks
+- TensorFlow / Keras
+- PyTorch
+- Scikit-learn
+- XGBoost / LightGBM
+
+### Mathematics
+- Linear Algebra
+- Calculus
+- Probability & Statistics
+- Optimization Theory
+
+### Tools & Platforms
+- Jupyter Notebooks
+- Docker containers
+- AWS / GCP / Azure ML services
+- MLflow / Weights & Biases
+- Apache Spark for big data
+
+## Career Path
+
+### Junior ML Engineer (0-2 years)
+- Build and train basic models
+- Work with structured datasets
+- Learn model evaluation metrics
+- Assist senior engineers
+
+### Mid-Level ML Engineer (2-5 years)
+- Design ML pipelines
+- Deploy models to production
+- Optimize model performance
+- Lead small projects
+
+### Senior ML Engineer (5+ years)
+- Architect ML systems
+- Research new techniques
+- Mentor junior engineers
+- Drive technical strategy
+
+## Portfolio Projects
+
+1. Image Classification System
+2. Recommendation Engine
+3. Time Series Forecasting
+4. Natural Language Processing App
+5. Computer Vision Object Detection
+
+## Salary Ranges
+- Junior: $80,000 - $120,000
+- Mid-Level: $120,000 - $160,000
+- Senior: $160,000 - $220,000+

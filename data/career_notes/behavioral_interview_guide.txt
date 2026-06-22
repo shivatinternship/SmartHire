@@ -1,0 +1,108 @@
+Document Title: Behavioral Interview Guide
+Document Category: Resume and Career
+Last Updated: 2026-06-20
+
+# Behavioral Interview Guide
+
+## Overview
+
+Behavioral interviews assess how you have handled real situations in the past to predict future performance. Employers use questions like "Tell me about a time when..." to evaluate your soft skills, decision-making, and cultural fit. The STAR framework provides a structured way to answer these questions effectively.
+
+## Core Concepts
+
+### The STAR Framework
+
+#### Structure
+- Situation: Set the context (when, where, what was happening)
+- Task: Describe your specific responsibility or challenge
+- Action: Explain the steps YOU took (not the team)
+- Result: Share the outcome with quantifiable metrics
+
+#### Example
+Q: "Tell me about a time you solved a difficult problem."
+
+S: "In my previous role, our customer satisfaction scores dropped 15% in one quarter."
+T: "I was tasked with identifying the root cause and improving the situation."
+A: "I analyzed support tickets, identified the top 3 issues, proposed solutions, and led a team to implement them over 4 weeks."
+R: "We improved customer satisfaction by 20% within two months, exceeding our previous baseline."
+
+### Common Behavioral Questions and Themes
+
+#### Leadership
+- Tell me about a time you led a team through a challenging project
+- Describe a situation where you had to motivate others
+- Give an example of when you made a difficult decision
+- Tell me about a time you took initiative without being asked
+
+#### Conflict Resolution
+- Describe a conflict with a coworker and how you resolved it
+- Tell me about a time you disagreed with a manager
+- Give an example of when you had to deliver bad news
+- How did you handle a situation where two team members were in conflict?
+
+#### Problem-Solving
+- Tell me about a time you solved a complex technical problem
+- Describe a situation where you had to work with limited information
+- Give an example of when you improved a process
+- How did you handle a project that was behind schedule?
+
+#### Failure and Growth
+- Tell me about a time you failed and what you learned
+- Describe a situation where you made a mistake
+- Give an example of when you received constructive criticism
+- How have you grown from a challenging experience?
+
+#### Teamwork
+- Tell me about your most successful team project
+- Describe how you collaborate with people from different backgrounds
+- Give an example of when you had to rely on others
+- How do you handle working with difficult team members?
+
+## Required Skills
+
+### Interview Skills
+1. Storytelling - Craft compelling narratives from experience
+2. Self-awareness - Reflect on your strengths and weaknesses
+3. Active listening - Understand what the interviewer is really asking
+4. Time management - Keep answers to 2-3 minutes each
+5. Adaptability - Adjust your stories to different question types
+
+### Preparation Skills
+1. Story Banking - Prepare 10-15 stories covering different themes
+2. Research - Understand the company's values and culture
+3. Practice - Rehearse answers without sounding scripted
+4. Reflection - Analyze your past experiences for lessons learned
+
+## Common Mistakes
+
+- Telling stories about team achievements without highlighting your role
+- Giving hypothetical answers instead of real examples
+- Not preparing enough stories (running out of examples)
+- Rambling without a clear structure
+- Badmouthing previous employers or colleagues
+- Not quantifying results when possible
+
+## Best Practices
+
+- Prepare 10-15 stories that cover leadership, conflict, failure, teamwork, and growth
+- Practice telling stories out loud to stay within 2-3 minutes
+- Always end with the result and what you learned
+- Use specific numbers and metrics whenever possible
+- Research the company's values and prepare stories that align
+- Have a question ready for the interviewer about the team culture
+
+## Learning Resources
+
+- "Cracking the Coding Interview" by Gayle Laakmann McDowell (behavioral section)
+- "Interviewing: The Art and Science" by Marc Cosentino
+- Big Interview (behavioral interview practice platform)
+- Pramp (mock interview platform)
+- "What Color Is Your Parachute?" by Richard Bolles
+
+## Next Steps
+
+1. Write down 10-15 stories from your experience using STAR
+2. Practice telling each story in 2-3 minutes
+3. Research your target company's values and prepare aligned stories
+4. Do a mock behavioral interview with a friend or mentor
+5. Record yourself answering questions and review for clarity

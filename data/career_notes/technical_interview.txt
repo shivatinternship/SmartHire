@@ -1,0 +1,75 @@
+# Technical Interview Preparation
+
+## Coding Interview
+
+### Data Structures to Master
+- Arrays and Strings
+- Linked Lists
+- Stacks and Queues
+- Trees (Binary, BST, Trie)
+- Graphs
+- Hash Tables
+- Heaps
+
+### Algorithms to Know
+- Sorting (Quick, Merge, Heap)
+- Binary Search
+- BFS / DFS
+- Dynamic Programming
+- Two Pointers
+- Sliding Window
+- Backtracking
+
+### Problem Solving Framework
+1. Clarify the problem (5 min)
+2. Explore examples (5 min)
+3. Break down the problem (5 min)
+4. Code the solution (15-20 min)
+5. Test with examples (5 min)
+6. Optimize if needed (5 min)
+
+## System Design Interview
+
+### Key Concepts
+- Load balancing
+- Caching strategies
+- Database sharding
+- API design
+- Microservices vs monolith
+- Message queues
+- CDN
+
+### Framework
+1. Requirements clarification
+2. High-level design
+3. Detailed design
+4. Scaling and optimization
+
+## Behavioral Interview
+
+### STAR Method Examples
+
+#### Leadership
+"Tell me about a time you led a difficult project"
+- Situation: Describe the context
+- Task: Your responsibility
+- Action: What you did
+- Result: Positive outcome with metrics
+
+#### Teamwork
+"Describe a time you worked with a difficult team member"
+- Focus on communication and compromise
+- Show empathy and professionalism
+
+#### Problem-Solving
+"Tell me about a time you solved a complex problem"
+- Show your analytical process
+- Highlight creative solutions
+
+## Common Questions
+
+1. Why this company?
+2. Why this role?
+3. What are your strengths/weaknesses?
+4. Where do you see yourself in 5 years?
+5. Tell me about a failure and what you learned

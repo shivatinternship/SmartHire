@@ -1,0 +1,90 @@
+Document Title: DevOps Engineer Career Roadmap
+Document Category: Career Paths
+Last Updated: 2026-06-20
+
+# DevOps Engineer Career Roadmap
+
+## Overview
+
+A DevOps Engineer bridges development and operations, building automation, CI/CD pipelines, and infrastructure that enables rapid, reliable software delivery. This role focuses on reducing friction between development and deployment.
+
+## Core Concepts
+
+### CI/CD (Continuous Integration/Continuous Deployment)
+- Build automation (GitHub Actions, Jenkins, GitLab CI)
+- Automated testing (unit, integration, security scans)
+- Deployment strategies (blue-green, canary, rolling)
+- Release management and rollback procedures
+- GitOps workflows (ArgoCD, Flux)
+
+### Docker
+- Container basics (images, containers, volumes)
+- Dockerfile best practices (multi-stage builds, layer caching)
+- Docker Compose for local development
+- Container registries (Docker Hub, ECR, GCR)
+- Container security scanning
+
+### Kubernetes
+- Core concepts (pods, services, deployments, ingress)
+- Helm charts for package management
+- Resource management and autoscaling (HPA, VPA)
+- Network policies and service mesh (Istio, Linkerd)
+- Troubleshooting and debugging pods
+
+### Monitoring and Observability
+- Metrics collection (Prometheus, Datadog, CloudWatch)
+- Log aggregation (ELK Stack, Loki, Fluentd)
+- Distributed tracing (Jaeger, Zipkin, OpenTelemetry)
+- Alerting rules and on-call procedures
+- SLOs, SLIs, and error budgets
+
+## Required Skills
+
+### Technical Skills
+1. Linux - System administration, shell scripting
+2. Python or Go - Automation and tooling
+3. Git - Version control and branching strategies
+4. Docker - Containerization and image management
+5. Kubernetes - Container orchestration
+6. CI/CD Tools - Jenkins, GitHub Actions, GitLab CI
+7. Cloud Platforms - AWS, GCP, or Azure
+
+### Soft Skills
+1. Collaboration - Working with developers and operations
+2. Problem-solving - Debugging complex systems
+3. Communication - Documenting processes and incidents
+4. Automation mindset - Eliminating repetitive tasks
+
+## Common Mistakes
+
+- Building CI/CD pipelines without security scanning
+- Not testing infrastructure changes before production
+- Ignoring observability until incidents occur
+- Over-automating without understanding the underlying systems
+- Skipping documentation for runbooks and procedures
+- Not involving developers in operational decisions
+
+## Best Practices
+
+- Automate everything that can be automated
+- Implement infrastructure as code for all environments
+- Use version control for all configuration
+- Build feedback loops from production to development
+- Practice chaos engineering to test resilience
+- Maintain runbooks for common incident responses
+
+## Learning Resources
+
+- "The Phoenix Project" by Gene Kim (DevOps culture)
+- "Site Reliability Engineering" by Google (free online)
+- Certified Kubernetes Administrator (CKA) certification
+- Docker and Kubernetes: The Complete Guide (Udemy)
+- DevOps Roadmap (roadmap.sh)
+
+## Next Steps
+
+1. Learn Linux fundamentals and shell scripting
+2. Master Docker and build containerized applications
+3. Set up a CI/CD pipeline for a personal project
+4. Learn Kubernetes basics and deploy an application
+5. Earn a cloud certification (AWS or Azure)

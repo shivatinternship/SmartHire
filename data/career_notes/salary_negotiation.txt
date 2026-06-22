@@ -1,0 +1,52 @@
+# Salary Negotiation Guide
+
+## Before Negotiating
+
+### Research Market Rates
+- Use Glassdoor, Levels.fyi, LinkedIn Salary
+- Check company-specific data
+- Consider location adjustments
+- Factor in benefits and equity
+
+### Know Your Value
+- Document your achievements
+- Quantify your impact with numbers
+- List unique skills and certifications
+- Consider your experience level
+
+## During Negotiation
+
+### Key Strategies
+1. Always provide a specific number, not a range
+2. Negotiate the total compensation package
+3. Use silence as a tool - let them respond first
+4. Get competing offers when possible
+5. Be enthusiastic about the role while negotiating
+
+### What to Negotiate
+- Base salary
+- Signing bonus
+- Annual bonus structure
+- Stock options / RSUs
+- Vacation days
+- Remote work flexibility
+- Professional development budget
+- Title
+
+### Script Template
+"Thank you for the offer! I'm very excited about this opportunity. Based on my research and experience, I was expecting something closer to [amount]. Is there flexibility in the compensation package?"
+
+## Common Mistakes
+
+1. Accepting the first offer immediately
+2. Not negotiating at all
+3. Making ultimatums
+4. Lying about other offers
+5. Negotiating via email when possible to do it in person/call
+
+## After Accepting
+
+1. Get the final offer in writing
+2. Express gratitude
+3. Don't share your salary with colleagues
+4. Focus on proving your value in the new role

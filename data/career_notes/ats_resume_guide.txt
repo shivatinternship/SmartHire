@@ -1,0 +1,94 @@
+Document Title: ATS Resume Optimization Guide
+Document Category: Resume and Career
+Last Updated: 2026-06-20
+
+# ATS Resume Optimization Guide
+
+## Overview
+
+Applicant Tracking Systems (ATS) are software tools used by employers to manage job applications. Over 95% of Fortune 500 companies use ATS. Your resume must be optimized for both the ATS and the human reviewer to maximize your chances of landing an interview.
+
+## Core Concepts
+
+### How ATS Works
+- Scans resume for keywords matching job descriptions
+- Parses contact information, work history, and education
+- Ranks candidates based on keyword match percentage
+- Stores resumes in a searchable database
+- Filters out resumes that do not meet minimum criteria
+
+### ATS Optimization Strategies
+
+#### Keyword Matching
+- Extract keywords from the job description
+- Include exact-match keywords in your resume
+- Use both spelled-out terms and abbreviations (e.g., "Search Engine Optimization (SEO)")
+- Place keywords in context within bullet points, not just a keyword list
+- Mirror the language used in the job posting
+
+#### Resume Structure
+- Use standard section headings (Experience, Education, Skills)
+- Avoid headers in footers (ATS may not read them)
+- Use simple, clean formatting without tables or text boxes
+- Save as PDF or DOCX (check job posting for preference)
+- Use a professional, readable font (Arial, Calibri, Garamond)
+
+#### Formatting Tips
+- Consistent date format throughout
+- Left-aligned text (avoid centering for body content)
+- Standard bullet points (not custom symbols)
+- No graphics, photos, or icons
+- Single column layout (multi-column confuses some ATS)
+
+## Required Skills
+
+### Resume Writing
+1. Quantify achievements with specific numbers
+2. Start bullet points with strong action verbs
+3. Tailor each resume to the specific job posting
+4. Focus on results, not just responsibilities
+5. Keep resume to 1-2 pages maximum
+
+### Keyword Research
+1. Analyze 3-5 job postings for your target role
+2. Identify recurring skills and qualifications
+3. Map your experience to those keywords
+4. Include both technical and soft skill keywords
+5. Use variations of important terms
+
+## Common Mistakes
+
+- Using a generic resume for every application
+- Ignoring the job description keywords
+- Including irrelevant work experience
+- Using creative fonts or colorful formatting
+- Submitting a resume that is too long (3+ pages)
+- Not proofreading for spelling and grammar errors
+- Using headers/footers for important information
+- Including personal information (age, marital status, photo)
+
+## Best Practices
+
+- Customize your resume for each application
+- Use the STAR method for bullet points (Situation, Task, Action, Result)
+- Include a professional summary tailored to the role
+- List skills in order of relevance to the job
+- Add certifications and relevant training
+- Include links to your portfolio or LinkedIn profile
+- Test your resume by copying text from the PDF to verify parsing
+
+## Learning Resources
+
+- Jobscan (ATS optimization tool)
+- "Knock Em Dead Resumes" by Martin Yate
+- Resume Worded (resume scoring tool)
+- LinkedIn Learning resume courses
+- Harvard Business Review career articles
+
+## Next Steps
+
+1. Get your current resume scored by an ATS tool
+2. Identify keyword gaps between your resume and target job descriptions
+3. Rewrite your bullet points using the STAR method
+4. Have a peer review your resume for clarity and impact
+5. Create 2-3 resume versions for different role types

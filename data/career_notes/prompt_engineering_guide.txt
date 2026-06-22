@@ -1,0 +1,141 @@
+Document Title: Prompt Engineering Guide
+Document Category: GenAI
+Last Updated: 2026-06-20
+
+# Prompt Engineering Guide
+
+## Overview
+
+Prompt engineering is the art and science of designing inputs that guide LLMs to produce desired outputs. Effective prompts can dramatically improve response quality, consistency, and reliability. This skill is essential for anyone building applications with large language models.
+
+## Core Concepts
+
+### Prompting Strategies
+
+#### Zero-Shot Prompting
+- Provide the task without any examples
+- The model relies entirely on its training
+- Works well for straightforward, well-defined tasks
+- Example: "Classify this review as positive, negative, or neutral."
+
+#### One-Shot Prompting
+- Provide one example of the desired input-output pattern
+- Helps the model understand the expected format
+- Useful when the task is ambiguous
+- Example: "Input: 'Great product!' -> Sentiment: Positive. Now classify: 'Terrible service.'"
+
+#### Few-Shot Prompting
+- Provide 2-5 examples of desired behavior
+- Most reliable way to guide model behavior
+- Examples should be diverse and representative
+- Show edge cases and boundary conditions
+
+#### Chain-of-Thought (CoT)
+- Ask the model to show its reasoning step by step
+- Improves accuracy on complex reasoning tasks
+- Add "Think step by step" or "Let's break this down"
+- Use for math, logic, multi-step problems, and analysis
+
+#### Tree-of-Thought (ToT)
+- Explore multiple reasoning paths before concluding
+- Consider alternatives and evaluate each approach
+- Use for complex problems with multiple valid solutions
+- Encourage the model to weigh pros and cons
+
+### Structured Outputs
+
+#### JSON Outputs
+- Specify the exact JSON schema in the prompt
+- Include field names, types, and descriptions
+- Use examples to show the expected structure
+- Important for programmatic parsing of LLM responses
+
+#### XML/YAML Outputs
+- Useful for configuration or document generation
+- Specify the structure explicitly in the prompt
+- Include nested elements and attributes
+- Good for hierarchical data representation
+
+### System Prompts
+
+#### Role Definition
+- Assign the model a specific role or expertise
+- "You are a senior career advisor with 15 years of experience"
+- Sets tone, depth, and perspective of responses
+
+#### Behavior Constraints
+- Define what the model should and should not do
+- "Only answer questions related to career advice"
+- "If you don't know, say so rather than guessing"
+- "Always provide actionable next steps"
+
+#### Output Formatting
+- Specify response length, structure, and style
+- "Respond in 3-5 bullet points"
+- "Use professional but friendly language"
+- "Include a brief explanation followed by actionable steps"
+
+### Prompt Optimization
+
+#### Iterative Process
+1. Start with a clear, specific prompt
+2. Test with diverse inputs
+3. Analyze failures and edge cases
+4. Refine the prompt based on results
+5. Document the prompt with version history
+
+#### Common Optimizations
+- Add explicit constraints ("Never include personal opinions")
+- Use delimiters to separate instructions from content
+- Provide negative examples ("Do NOT do X")
+- Specify the audience ("Explain as if to a junior developer")
+- Include output examples for complex formats
+
+## Required Skills
+
+### Technical Skills
+1. LLM APIs - OpenAI, Anthropic, Groq, local models
+2. Template Design - Structured prompt templates
+3. Testing - Systematic prompt evaluation
+4. Version Control - Tracking prompt changes and results
+
+### Analytical Skills
+1. Critical Thinking - Identifying what makes a prompt fail
+2. Pattern Recognition - Recognizing effective prompt structures
+3. Communication - Translating requirements into clear instructions
+4. Attention to Detail - Small wording changes matter
+
+## Common Mistakes
+
+- Being too vague ("Write something about AI")
+- Not providing examples for complex output formats
+- Mixing instructions with content without clear delimiters
+- Assuming the model remembers previous prompts in the conversation
+- Not testing prompts with diverse and adversarial inputs
+- Over-complicating prompts when simple ones work
+
+## Best Practices
+
+- Start simple and add complexity only when needed
+- Test prompts with edge cases and adversarial inputs
+- Version control your prompts with change documentation
+- Use delimiters (triple backticks, XML tags) to separate sections
+- Include both positive and negative examples when helpful
+- Measure prompt performance with quantitative metrics
+- Document the intended behavior and failure modes
+
+## Learning Resources
+
+- OpenAI Prompt Engineering Guide
+- Anthropic's prompt engineering documentation
+- "Prompt Engineering Guide" (DAIR.AI)
+- DeepLearning.AI ChatGPT Prompt Engineering course
+- "AI Prompt Engineering" by promptingguide.ai
+
+## Next Steps
+
+1. Practice zero-shot, few-shot, and chain-of-thought prompting
+2. Build a prompt library for common tasks
+3. Create a testing framework for prompt evaluation
+4. Experiment with system prompts for different personas
+5. Learn structured output techniques (JSON, XML)

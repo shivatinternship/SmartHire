@@ -1,0 +1,96 @@
+Document Title: Frontend Engineer Career Roadmap
+Document Category: Career Paths
+Last Updated: 2026-06-20
+
+# Frontend Engineer Career Roadmap
+
+## Overview
+
+A Frontend Engineer builds the user-facing parts of web applications, focusing on user experience, performance, and accessibility. This role combines design sensibility with technical implementation to create responsive, interactive interfaces.
+
+## Core Concepts
+
+### Daily Responsibilities
+- Build and maintain UI components and pages
+- Implement responsive designs for all screen sizes
+- Optimize page load performance and Core Web Vitals
+- Write unit and integration tests for UI code
+- Collaborate with designers on pixel-perfect implementations
+- Ensure accessibility (WCAG 2.1 compliance)
+
+### Career Progression
+
+#### Entry Level (0-2 years)
+- Master HTML5, CSS3, and modern JavaScript (ES6+)
+- Learn a framework (React, Vue, or Angular)
+- Understand responsive design and CSS Grid/Flexbox
+- Build 5-10 projects with clean, semantic markup
+- Learn version control with Git
+
+#### Mid Level (2-5 years)
+- Advanced state management (Redux, Zustand, Pinia)
+- Performance optimization (code splitting, lazy loading)
+- Testing strategies (Jest, Cypress, Playwright)
+- TypeScript proficiency
+- Lead feature development and mentor juniors
+
+#### Senior Level (5+ years)
+- Architect frontend applications and design systems
+- Define coding standards and best practices
+- Drive performance improvements across products
+- Evaluate and adopt new technologies
+- Mentor engineers and lead technical initiatives
+
+## Required Skills
+
+### Core Technologies
+1. HTML5 - Semantic markup, accessibility, SEO
+2. CSS3 - Flexbox, Grid, animations, responsive design
+3. JavaScript - ES6+, async/await, modules, closures
+4. TypeScript - Type safety and better developer experience
+
+### Frameworks and Libraries
+1. React - Component architecture, hooks, context
+2. Next.js - Server-side rendering, static generation
+3. Vue.js - Progressive framework, Composition API
+4. State Management - Redux, Zustand, Pinia
+
+### Tooling
+1. Build Tools - Vite, Webpack, esbuild
+2. Testing - Jest, React Testing Library, Cypress
+3. Package Managers - npm, yarn, pnpm
+4. CSS Frameworks - Tailwind CSS, Material UI, Chakra UI
+
+## Common Mistakes
+
+- Building without considering accessibility from the start
+- Ignoring performance metrics (LCP, FID, CLS)
+- Over-relying on JavaScript when CSS solutions exist
+- Not testing across browsers and devices
+- Creating components that are too tightly coupled
+- Ignoring bundle size and loading performance
+
+## Best Practices
+
+- Follow mobile-first responsive design principles
+- Implement proper loading states and error boundaries
+- Use semantic HTML for better accessibility and SEO
+- Optimize images and assets for web delivery
+- Write self-documenting code with clear naming conventions
+- Conduct regular performance audits with Lighthouse
+
+## Learning Resources
+
+- MDN Web Docs (comprehensive reference)
+- "You Don't Know JS" by Kyle Simpson
+- Frontend Masters courses
+- freeCodeCamp Frontend Development curriculum
+- CSS-Tricks and Smashing Magazine articles
+
+## Next Steps
+
+1. Build a responsive portfolio website
+2. Master a framework (React recommended) with projects
+3. Learn TypeScript and integrate it into your projects
+4. Practice accessibility testing with screen readers
+5. Contribute to open source frontend projects

@@ -1,0 +1,38 @@
+{
+  "evaluation_summary": {
+    "total_metrics": 6,
+    "average_score": 0.7659527023211071
+  },
+  "metrics": [
+    {
+      "metric_name": "Retrieval Relevance",
+      "score": 1.0,
+      "details": "Hit@5: 100.00%, Hit@10: 100.00% (3 queries)"
+    },
+    {
+      "metric_name": "RAG Correctness",
+      "score": 0.48702056175272995,
+      "details": "TF-IDF cosine similarity with ground truth: 48.70%"
+    },
+    {
+      "metric_name": "RAG Groundedness",
+      "score": 0.4753623188405797,
+      "details": "Key-phrase overlap with context: 47.54%"
+    },
+    {
+      "metric_name": "RAG Helpfulness",
+      "score": 0.8333333333333334,
+      "details": "Multi-signal actionability score: 83.33%"
+    },
+    {
+      "metric_name": "Guardrails Accuracy",
+      "score": 1.0,
+      "details": "Accuracy: 100.00% (10/10 correct). Errors: 0"
+    },
+    {
+      "metric_name": "Prompt Comparison: RAG Answer Quality",
+      "score": 0.8,
+      "details": "V1 (Basic context prompt): 66.75%, V2 (Structured prompt with hallucination prevention): 80.00%, Winner: V2 (+19.9%)"
+    }
+  ]
+}

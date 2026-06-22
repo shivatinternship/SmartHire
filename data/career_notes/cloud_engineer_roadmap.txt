@@ -1,0 +1,98 @@
+Document Title: Cloud Engineer Career Roadmap
+Document Category: Career Paths
+Last Updated: 2026-06-20
+
+# Cloud Engineer Career Roadmap
+
+## Overview
+
+A Cloud Engineer designs, builds, and manages cloud infrastructure and services. This role ensures scalable, secure, and cost-effective computing environments that support application development and business operations.
+
+## Core Concepts
+
+### Cloud Platforms
+
+#### Amazon Web Services (AWS)
+- Compute: EC2, Lambda, ECS, EKS
+- Storage: S3, EBS, EFS
+- Database: RDS, DynamoDB, Aurora
+- Networking: VPC, Route 53, CloudFront
+- Security: IAM, KMS, Security Groups
+
+#### Microsoft Azure
+- Compute: Virtual Machines, Azure Functions, AKS
+- Storage: Blob Storage, Azure Files
+- Database: Azure SQL, Cosmos DB
+- Networking: Virtual Networks, Azure DNS
+- Security: Azure AD, Key Vault
+
+#### Google Cloud Platform (GCP)
+- Compute: Compute Engine, Cloud Functions, GKE
+- Storage: Cloud Storage, Persistent Disk
+- Database: Cloud SQL, Bigtable, Firestore
+- Networking: VPC, Cloud DNS, Cloud CDN
+- Security: IAM, Cloud KMS
+
+### Networking
+- DNS resolution and load balancing
+- VPN and private networking
+- CDN configuration and optimization
+- SSL/TLS certificate management
+- Firewall rules and network security groups
+
+### Security
+- Identity and Access Management (IAM)
+- Encryption at rest and in transit
+- Secret management (Vault, AWS Secrets Manager)
+- Compliance frameworks (SOC2, HIPAA, GDPR)
+- Vulnerability scanning and patching
+
+## Required Skills
+
+### Technical Skills
+1. Linux Administration - Command line, permissions, processes
+2. Networking - TCP/IP, DNS, HTTP, load balancing
+3. Scripting - Python, Bash, PowerShell
+4. Infrastructure as Code - Terraform, CloudFormation, Pulumi
+5. Containers - Docker, Kubernetes
+6. CI/CD - GitHub Actions, Jenkins, GitLab CI
+
+### Cloud Certifications
+1. AWS Solutions Architect Associate
+2. Azure Administrator Associate
+3. Google Cloud Professional Cloud Architect
+4. Certified Kubernetes Administrator (CKA)
+
+## Common Mistakes
+
+- Over-provisioning resources leading to high costs
+- Not implementing proper backup and disaster recovery
+- Hardcoding secrets in configuration files
+- Ignoring network security and firewall rules
+- Not monitoring resource utilization and costs
+- Skipping infrastructure testing before deployment
+
+## Best Practices
+
+- Use Infrastructure as Code for reproducible environments
+- Implement the principle of least privilege for IAM
+- Set up cost alerts and review spending regularly
+- Automate backups and test disaster recovery procedures
+- Use managed services when possible to reduce operational overhead
+- Document architecture decisions and runbooks
+
+## Learning Resources
+
+- AWS Well-Architected Framework
+- A Cloud Guru and Pluralsight courses
+- "Cloud Computing Patterns" by Chris Richardson
+- Kubernetes documentation
+- Terraform Up and Running by Yevgeniy Brikman
+
+## Next Steps
+
+1. Choose a primary cloud provider and earn certification
+2. Build a multi-tier application in the cloud
+3. Learn Terraform for infrastructure as code
+4. Practice with Kubernetes for container orchestration
+5. Set up a CI/CD pipeline for cloud deployments

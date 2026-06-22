@@ -1,0 +1,42 @@
+# Environment variables
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+*.egg-info/
+dist/
+build/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Streamlit
+.streamlit/secrets.toml
+
+# Vector store (large files)
+vectorstore/*.faiss
+vectorstore/*.pkl
+
+# Data files
+data/resumes/*.pdf
+data/resumes/*.docx
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Reports
+reports/*.html

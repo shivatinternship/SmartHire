@@ -1,0 +1,66 @@
+# Networking and LinkedIn Guide
+
+## Building Your Professional Network
+
+### Why Networking Matters
+- 70-80% of jobs are filled through networking
+- Builds long-term career relationships
+- Provides mentorship opportunities
+- Increases industry visibility
+
+### Networking Strategies
+
+#### Online
+- Optimize your LinkedIn profile
+- Share industry insights regularly
+- Comment on others' posts thoughtfully
+- Join relevant LinkedIn groups
+- Send personalized connection requests
+
+#### Offline
+- Attend industry meetups and conferences
+- Join professional associations
+- Participate in hackathons
+- Volunteer for industry events
+- Alumni network events
+
+## LinkedIn Profile Optimization
+
+### Headline
+- Don't just list your job title
+- Include key skills and value proposition
+- Example: "Data Engineer | Python & SQL Expert | Building Scalable Data Pipelines"
+
+### About Section
+- Tell your professional story
+- Include keywords for search
+- End with a call to action
+
+### Experience
+- Use bullet points with action verbs
+- Quantify achievements
+- Include relevant keywords
+
+### Skills & Endorsements
+- List top 50 skills
+- Pin your most important 3
+- Request endorsements from colleagues
+
+### Recommendations
+- Request 3-5 recommendations
+- Offer to write recommendations in return
+- Diverse sources: managers, peers, clients
+
+## Informational Interviews
+
+### How to Request
+1. Find people in roles you're interested in
+2. Send a concise, personalized message
+3. Ask for 15-20 minutes of their time
+4. Prepare specific questions
+
+### Good Questions to Ask
+- What does a typical day look like?
+- What skills are most important for this role?
+- What advice would you give someone starting out?
+- What do you wish you knew earlier in your career?

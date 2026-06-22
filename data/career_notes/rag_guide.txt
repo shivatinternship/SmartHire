@@ -1,0 +1,126 @@
+Document Title: Retrieval-Augmented Generation (RAG) Guide
+Document Category: GenAI
+Last Updated: 2026-06-20
+
+# Retrieval-Augmented Generation (RAG) Guide
+
+## Overview
+
+RAG combines information retrieval with language model generation. Instead of relying solely on an LLM's training data, RAG retrieves relevant documents from a knowledge base and provides them as context to the model. This grounds responses in factual, up-to-date information and reduces hallucination.
+
+## Core Concepts
+
+### What RAG Is
+- A technique that augments LLM prompts with retrieved context
+- Retrieves relevant documents before generating answers
+- Grounds responses in your specific data and knowledge base
+- Enables LLMs to answer questions about data they were not trained on
+- Reduces hallucination by providing factual reference material
+
+### The RAG Pipeline
+
+#### Step 1: Document Ingestion
+- Load documents from various sources (PDF, DOCX, TXT, HTML)
+- Extract text content from each document
+- Clean and normalize text (remove artifacts, fix encoding)
+- Create metadata (source, title, date, category)
+
+#### Step 2: Chunking
+- Split documents into smaller, manageable pieces
+- Chunks should be semantically meaningful (not mid-sentence)
+- Common strategies:
+  - Fixed-size chunks (500-1000 characters)
+  - Recursive character splitting (paragraphs, then sentences)
+  - Semantic chunking (based on meaning boundaries)
+- Chunk overlap ensures no context is lost at boundaries (50-100 characters)
+
+#### Step 3: Embedding
+- Convert each chunk into a numerical vector (embedding)
+- Embedding models: BGE-small, E5, OpenAI Ada, Cohere
+- Vectors capture semantic meaning (similar meanings = similar vectors)
+- L2 normalization enables cosine similarity via inner product
+
+#### Step 4: Indexing
+- Store embeddings in a vector database
+- FAISS (Facebook AI Similarity Search) - fast, local, no server needed
+- Pinecone - managed, cloud-native vector database
+- Weaviate - open-source with hybrid search capabilities
+- Chroma - lightweight, great for development
+- Index types: Flat (exact), HNSW (approximate), IVF (clustered)
+
+#### Step 5: Retrieval
+- Embed the user's query using the same embedding model
+- Search the vector index for the most similar chunks
+- Return top-k results (typically 3-5 chunks)
+- Optionally rerank results for better relevance
+
+#### Step 6: Generation
+- Construct a prompt with the retrieved context
+- Include instructions to answer only using provided context
+- Send to the LLM for response generation
+- Return the answer along with source citations
+
+### Retrieval Quality
+
+#### Factors Affecting Retrieval
+- Chunk size and overlap quality
+- Embedding model quality and domain relevance
+- Query phrasing and specificity
+- Document quality and structure
+- Index type and search parameters
+
+#### Improving Retrieval
+- Experiment with chunk sizes (250, 500, 1000 characters)
+- Use hybrid search (dense + keyword/BM25)
+- Implement reranking (Cohere, cross-encoders)
+- Add metadata filtering for targeted retrieval
+- Evaluate with metrics: precision, recall, MRR
+
+## Required Skills
+
+### Technical Skills
+1. Python - Document processing and API integration
+2. Vector Databases - FAISS, Pinecone, Weaviate, Chroma
+3. Embedding Models - Sentence transformers, OpenAI embeddings
+4. Text Processing - Chunking, cleaning, normalization
+5. LLM APIs - OpenAI, Anthropic, Groq, local models
+
+### Design Skills
+1. Chunking Strategy - Choosing the right approach for your data
+2. Prompt Engineering - Crafting effective RAG prompts
+3. Evaluation - Measuring retrieval and generation quality
+4. Architecture - Designing scalable RAG systems
+
+## Common Mistakes
+
+- Using chunks that are too large (diluting relevant information)
+- Not using enough chunk overlap (losing context at boundaries)
+- Ignoring document quality (garbage in, garbage out)
+- Using a single retrieval strategy without testing alternatives
+- Not evaluating retrieval quality before generation
+- Over-relying on LLM to compensate for poor retrieval
+
+## Best Practices
+
+- Start with simple fixed-size chunks, then optimize
+- Use metadata filtering alongside vector search
+- Implement chunking that preserves paragraph and section boundaries
+- Evaluate retrieval separately from generation
+- Cache embeddings to avoid recomputation
+- Monitor for drift and update knowledge base regularly
+
+## Learning Resources
+
+- LangChain RAG documentation
+- LlamaIndex advanced RAG techniques
+- "Building RAG Applications" (DeepLearning.AI courses)
+- Pinecone learning center articles
+- "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks" (original paper)
+
+## Next Steps
+
+1. Build a basic RAG pipeline with FAISS and LangChain
+2. Experiment with different chunk sizes and overlap values
+3. Add metadata filtering to improve retrieval precision
+4. Implement reranking for better result quality
+5. Build an evaluation pipeline to measure retrieval quality

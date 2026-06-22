@@ -1,0 +1,97 @@
+Document Title: Backend Engineer Career Roadmap
+Document Category: Career Paths
+Last Updated: 2026-06-20
+
+# Backend Engineer Career Roadmap
+
+## Overview
+
+A Backend Engineer builds and maintains the server-side logic, databases, and APIs that power applications. This role focuses on scalability, reliability, and performance of systems that handle millions of users and requests.
+
+## Core Concepts
+
+### Daily Responsibilities
+- Design and implement RESTful or GraphQL APIs
+- Build and optimize database schemas and queries
+- Write unit, integration, and end-to-end tests
+- Monitor system performance and resolve bottlenecks
+- Collaborate with frontend engineers on API contracts
+- Participate in code reviews and architectural decisions
+
+### Career Progression
+
+#### Entry Level (0-2 years)
+- Master a primary language (Python, Java, Go, or Node.js)
+- Learn database design and SQL
+- Build REST APIs with proper error handling
+- Understand HTTP, authentication, and authorization
+- Write clean, tested, documented code
+
+#### Mid Level (2-5 years)
+- Design systems for scalability and reliability
+- Implement caching strategies (Redis, Memcached)
+- Work with message queues (Kafka, RabbitMQ, SQS)
+- Optimize database performance and query execution
+- Lead technical projects and mentor juniors
+
+#### Senior Level (5+ years)
+- Architect distributed systems
+- Define API standards and platform strategy
+- Lead technical design reviews
+- Drive reliability and performance improvements
+- Mentor engineers and shape team culture
+
+## Required Skills
+
+### Programming Languages
+1. Python - FastAPI, Django, Flask
+2. Java - Spring Boot, enterprise applications
+3. Go - High-performance microservices
+4. Node.js - JavaScript/TypeScript backend development
+
+### Databases
+1. PostgreSQL - Relational database, ACID compliance
+2. MySQL - Widely used relational database
+3. MongoDB - Document-based NoSQL
+4. Redis - Caching and session management
+5. Elasticsearch - Full-text search
+
+### Infrastructure
+1. Docker - Containerization
+2. AWS/GCP/Azure - Cloud services and deployment
+3. CI/CD - GitHub Actions, Jenkins, GitLab CI
+4. Monitoring - Prometheus, Grafana, Datadog
+
+## Common Mistakes
+
+- Not implementing proper error handling and logging
+- Ignoring database indexing and query optimization
+- Skipping tests in favor of faster development
+- Building monolithic systems when microservices are appropriate
+- Not considering security implications (SQL injection, XSS, CSRF)
+- Over-engineering solutions for current scale requirements
+
+## Best Practices
+
+- Design APIs with backward compatibility in mind
+- Use database migrations for schema changes
+- Implement health checks and graceful degradation
+- Write comprehensive integration tests
+- Monitor latency, error rates, and throughput
+- Document API contracts with OpenAPI/Swagger
+
+## Learning Resources
+
+- "Designing Data-Intensive Applications" by Martin Kleppmann
+- FastAPI official documentation
+- AWS Certified Solutions Architect certification
+- System Design Interview by Alex Xu
+- Backend Master Class (freeCodeCamp)
+
+## Next Steps
+
+1. Build a full REST API with authentication and tests
+2. Learn a cloud platform and deploy your API
+3. Study system design for technical interviews
+4. Contribute to open source backend projects
+5. Learn message queues and event-driven architecture

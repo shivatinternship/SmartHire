@@ -1,0 +1,58 @@
+# Resume Writing Guide
+
+## Resume Structure
+
+### 1. Contact Information
+- Full name
+- Professional email
+- Phone number
+- LinkedIn profile
+- Portfolio/GitHub (if applicable)
+
+### 2. Professional Summary
+- 2-3 sentences highlighting your value
+- Include years of experience
+- Mention key skills and achievements
+- Tailor to target role
+
+### 3. Skills Section
+- Technical skills relevant to the job
+- Software and tools proficiency
+- Certifications and specializations
+- Language skills if applicable
+
+### 4. Work Experience
+- Use action verbs to start bullet points
+- Quantify achievements with numbers
+- Focus on impact and results
+- Include relevant keywords
+
+### 5. Education
+- Degree and major
+- University name and graduation year
+- Relevant coursework (for recent graduates)
+- GPA if strong (3.5+)
+
+## Writing Strong Bullet Points
+
+### Formula
+Action Verb + Task + Result/Impact
+
+### Examples
+- "Increased sales by 25% through implementation of new CRM system"
+- "Reduced processing time by 40% by automating data entry workflows"
+- "Led team of 5 developers to deliver project 2 weeks ahead of schedule"
+
+## ATS Optimization
+
+### Keywords
+- Include keywords from job description
+- Use standard section headings
+- Avoid unusual formatting
+- Save as PDF or DOCX
+
+### Formatting Tips
+- Clean, professional layout
+- Consistent fonts and spacing
+- 1-2 pages maximum
+- No graphics or tables

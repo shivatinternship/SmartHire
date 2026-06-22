@@ -1,0 +1,99 @@
+Document Title: Generative AI Engineer Career Roadmap
+Document Category: Career Paths
+Last Updated: 2026-06-20
+
+# Generative AI Engineer Career Roadmap
+
+## Overview
+
+A Generative AI Engineer builds applications powered by large language models, diffusion models, and other generative AI technologies. This is one of the fastest-growing roles in tech, combining ML engineering with application development and prompt engineering.
+
+## Core Concepts
+
+### Large Language Models (LLMs)
+- Transformer architecture fundamentals
+- Pre-training, fine-tuning, and RLHF
+- Open-source models (Llama, Mistral, Gemma, Qwen)
+- Commercial APIs (OpenAI, Anthropic, Google Gemini)
+- Model limitations: hallucination, context window, knowledge cutoffs
+
+### Prompt Engineering
+- Zero-shot, one-shot, few-shot prompting
+- Chain-of-thought and tree-of-thought reasoning
+- System prompts and role-based instructions
+- Structured output generation (JSON, XML, YAML)
+- Prompt optimization and A/B testing
+
+### Retrieval-Augmented Generation (RAG)
+- Document loading and preprocessing
+- Text chunking strategies (recursive, semantic)
+- Embedding models (BGE, E5, OpenAI embeddings)
+- Vector databases (FAISS, Pinecone, Weaviate, Chroma)
+- Hybrid search (dense + sparse retrieval)
+- Reranking and relevance optimization
+- Evaluation (faithfulness, relevance, context recall)
+
+### AI Agents
+- Tool use and function calling
+- Planning strategies (ReAct, Plan-and-Execute)
+- Memory systems (short-term, long-term, episodic)
+- Multi-agent architectures (CrewAI, AutoGen, LangGraph)
+- Guardrails and safety controls
+
+### Vector Databases
+- FAISS (local, high-performance)
+- Pinecone (managed, cloud-native)
+- Weaviate (open-source, hybrid search)
+- Chroma (lightweight, development)
+- Qdrant (performance-focused, open-source)
+- Indexing strategies (HNSW, IVF, flat)
+
+## Required Skills
+
+### Technical Skills
+1. Python - Advanced proficiency with async programming
+2. LLM APIs - OpenAI, Anthropic, Groq, local model serving
+3. RAG Frameworks - LangChain, LlamaIndex, Haystack
+4. Vector Databases - FAISS, Pinecone, Weaviate
+5. Web Frameworks - FastAPI, Flask, Streamlit
+6. Frontend Basics - React or Next.js for full-stack apps
+
+### ML Skills
+1. Fine-tuning - LoRA, QLoRA, PEFT techniques
+2. Embeddings - Training and using embedding models
+3. Evaluation - LLM-as-judge, RAGAS, human evaluation
+4. Optimization - Quantization, distillation, caching
+
+## Common Mistakes
+
+- Building RAG without proper chunking or evaluation
+- Over-relying on prompt engineering when fine-tuning is needed
+- Not implementing guardrails for user-facing applications
+- Ignoring latency and cost in production deployments
+- Using RAG when a fine-tuned model would be more appropriate
+- Not testing for hallucination and factual accuracy
+
+## Best Practices
+
+- Start with retrieval before fine-tuning
+- Build evaluation pipelines before production
+- Implement streaming responses for better UX
+- Cache embeddings and responses to reduce costs
+- Use structured outputs for reliable parsing
+- Monitor for prompt injection and adversarial inputs
+
+## Learning Resources
+
+- DeepLearning.AI short courses on LLMs and RAG
+- LangChain documentation and tutorials
+- "Building LLM Applications" by Valentina Alto
+- LlamaIndex documentation
+- Hugging Face NLP course
+
+## Next Steps
+
+1. Build a RAG application with FAISS and an LLM API
+2. Create an AI agent with tool use capabilities
+3. Deploy a GenAI application to the cloud
+4. Learn evaluation methodologies (RAGAS, LLM-as-judge)
+5. Contribute to open source GenAI projects
