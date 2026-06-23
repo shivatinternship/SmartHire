@@ -442,6 +442,10 @@ def render_resume_upload() -> None:
 
             st.info("Go to **Job Matches** to find matching positions.")
 
+            if st.button("Go to Job Matches", type="primary", key="goto_job_matches"):
+                st.session_state.navigate_to = "Job Matches"
+                st.rerun()
+
         finally:
             os.unlink(tmp_path)
 
