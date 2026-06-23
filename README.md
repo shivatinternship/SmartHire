@@ -295,6 +295,10 @@ python -m src.evaluate
 
 Reports are saved in the `reports/` directory.
 
+### Written Evaluation Report
+
+See `FINAL_REPORT.md` for the comprehensive final evaluation report covering all evaluation requirements.
+
 ### System Metrics
 
 | Metric | Score | Target | Status |
