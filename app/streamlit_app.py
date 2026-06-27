@@ -9,7 +9,11 @@ import streamlit as st
 import tempfile
 import os
 import json
+import io
 from datetime import datetime
+from docx import Document
+from docx.shared import Pt, Inches
+from docx.enum.text import WD_ALIGN_PARAGRAPH
 
 from src.config import (
     GROQ_API_KEY,
@@ -30,6 +34,91 @@ from src.generate.resume_tailor import tailor_resume
 from src.generate.prompts import MATCH_EXPLANATION_EVIDENCE_PROMPT
 from src.mentor.rag_chain import CareerMentorRAG
 from src.safety.guardrails import check_input_safety, validate_resume_text
+
+
+def _generate_resume_docx(tailored: dict) -> bytes:
+    """Generate a DOCX file from tailored resume data.
+    
+    Args:
+        tailored: Dictionary containing tailored resume sections.
+        
+    Returns:
+        bytes: DOCX file content.
+    """
+    doc = Document()
+    
+    style = doc.styles['Normal']
+    font = style.font
+    font.name = 'Calibri'
+    font.size = Pt(11)
+    
+    if tailored.get("name"):
+        heading = doc.add_heading(tailored["name"], level=0)
+        heading.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    
+    if tailored.get("email"):
+        p = doc.add_paragraph()
+        p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        run = p.add_run(tailored["email"])
+        run.font.size = Pt(11)
+        run.font.color.rgb = None
+    
+    if tailored.get("summary"):
+        doc.add_heading("Professional Summary", level=1)
+        doc.add_paragraph(tailored["summary"])
+    
+    if tailored.get("skills"):
+        doc.add_heading("Skills", level=1)
+        p = doc.add_paragraph()
+        run = p.add_run(", ".join(tailored["skills"]))
+        run.font.size = Pt(11)
+    
+    if tailored.get("experience"):
+        doc.add_heading("Experience", level=1)
+        for exp in tailored["experience"]:
+            p = doc.add_paragraph()
+            p.style = 'List Bullet'
+            p.add_run(exp)
+    
+    if tailored.get("projects"):
+        doc.add_heading("Projects", level=1)
+        for proj in tailored["projects"]:
+            p = doc.add_paragraph()
+            p.style = 'List Bullet'
+            p.add_run(proj)
+    
+    if tailored.get("education"):
+        doc.add_heading("Education", level=1)
+        for edu in tailored["education"]:
+            p = doc.add_paragraph()
+            p.style = 'List Bullet'
+            p.add_run(edu)
+    
+    if tailored.get("certifications"):
+        doc.add_heading("Certifications", level=1)
+        for cert in tailored["certifications"]:
+            p = doc.add_paragraph()
+            p.style = 'List Bullet'
+            p.add_run(cert)
+    
+    if tailored.get("awards"):
+        doc.add_heading("Awards", level=1)
+        for award in tailored["awards"]:
+            p = doc.add_paragraph()
+            p.style = 'List Bullet'
+            p.add_run(award)
+    
+    if tailored.get("languages"):
+        doc.add_heading("Languages", level=1)
+        for lang in tailored["languages"]:
+            p = doc.add_paragraph()
+            p.style = 'List Bullet'
+            p.add_run(lang)
+    
+    buffer = io.BytesIO()
+    doc.save(buffer)
+    buffer.seek(0)
+    return buffer.getvalue()
 
 st.set_page_config(
     page_title="SmartHire GenAI",
@@ -1083,12 +1172,13 @@ def render_resume_tailoring() -> None:
                 key="download_tailored_resume_md",
             )
         with col2:
+            docx_data = _generate_resume_docx(tailored)
             st.download_button(
-                "Download Tailoring Report (JSON)",
-                data=json.dumps(result, indent=2),
-                file_name="tailoring_report.json",
-                mime="application/json",
-                key="download_tailoring_report",
+                "Download Tailored Resume (DOCX)",
+                data=docx_data,
+                file_name="tailored_resume.docx",
+                mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                key="download_tailored_resume_docx",
             )
 
 

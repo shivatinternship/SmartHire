@@ -240,7 +240,7 @@ Unlike naive resume rewriters, SmartHire's tailoring module acts like an experie
 - **Integrity Report** — Validates no fabricated employers, projects, skills, certifications, dates, or metrics. Uses fuzzy matching (SequenceMatcher + identifier overlap) to validate rewritten experience entries against originals
 - **Confidence Scores** — Per-section confidence ratings (High/Medium/Low) so users know what to review
 - **Evidence-Based** — Every keyword introduced must already exist somewhere in the original resume
-- **Download** — Export tailored resume as Markdown and full tailoring report as JSON
+- **Download** — Export tailored resume as Markdown or editable DOCX file
 
 ### Explainable Job Matching
 Every job result displays:

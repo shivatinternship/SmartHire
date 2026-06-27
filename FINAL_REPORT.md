@@ -185,6 +185,6 @@ The SmartHire GenAI system successfully demonstrates all core Generative AI tech
 - Significant prompt improvement (+19.9%) with V2
 - Excellent hallucination prevention (100% accuracy)
 - All core features operational and integrated
-- Explainable Resume Tailoring with integrity validation, fuzzy matching, and full transparency
+- Explainable Resume Tailoring with integrity validation, fuzzy matching, and full transparency. Export as Markdown or editable DOCX
 
 The system is production-ready for capstone demonstration and meets all specified requirements. The evaluation framework provides comprehensive metrics for system performance, and the implementation follows best practices for Generative AI systems.

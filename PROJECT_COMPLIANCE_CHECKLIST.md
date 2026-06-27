@@ -93,7 +93,7 @@ This document provides a comprehensive compliance audit of the SmartHire GenAI p
 - `src/generate/prompts.py:33-182` - RESUME_TAILOR_PROMPT with tailoring rules, change log, integrity report, and confidence scores
 - `app/streamlit_app.py` - Resume Tailoring page with full UI (tailoring plan, section explanations, change log, integrity report, tailored resume, confidence scores, download) and error handling
 
-**Details**: System performs explainable resume tailoring that produces a tailored resume, section-by-section explanations with confidence levels, a change log with before/after comparisons, and an integrity report validating no fabricated content. Uses fuzzy matching (SequenceMatcher + identifier overlap) to validate rewritten experience entries against originals, preventing false positives when the LLM legitimately rewrites content. Consumes CV Suggestions output for additional context.
+**Details**: System performs explainable resume tailoring that produces a tailored resume, section-by-section explanations with confidence levels, a change log with before/after comparisons, and an integrity report validating no fabricated content. Uses fuzzy matching (SequenceMatcher + identifier overlap) to validate rewritten experience entries against originals, preventing false positives when the LLM legitimately rewrites content. Consumes CV Suggestions output for additional context. Users can download the tailored resume as Markdown or editable DOCX file.
 
 ### 9. Evaluation Report
 **Status**: ✅ COMPLETE
