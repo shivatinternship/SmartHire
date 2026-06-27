@@ -363,7 +363,7 @@ class CareerMentorRAG:
             logger.error(f"Error during retrieval: {e}")
             return []
 
-    def answer(self, question: str, top_k: int = 3, session_id: str = "mentor") -> dict:
+    def answer(self, question: str, top_k: int = 3, session_id: str = "mentor", resume_context: Optional[str] = None) -> dict:
         """Answer a career question using RAG.
 
         Uses the LangChain RunnableSequence chain with conversation history:
@@ -373,6 +373,7 @@ class CareerMentorRAG:
             question: Career-related question.
             top_k: Number of context documents to retrieve.
             session_id: Session identifier for conversation history.
+            resume_context: Optional resume profile text to prepend for context.
 
         Returns:
             Dictionary with answer and sources.
@@ -398,8 +399,16 @@ class CareerMentorRAG:
 
         try:
             chain_with_history = self.get_chain_with_history(session_id)
+
+            augmented_question = question
+            if resume_context:
+                augmented_question = (
+                    f"[The user's resume profile: {resume_context}]\n\n"
+                    f"Question: {question}"
+                )
+
             answer_text = chain_with_history.invoke(
-                {"question": question},
+                {"question": augmented_question},
                 config={"configurable": {"session_id": session_id}}
             )
             return {"answer": answer_text, "sources": sources}

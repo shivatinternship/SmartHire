@@ -9,6 +9,7 @@ import streamlit as st
 import tempfile
 import os
 import json
+from datetime import datetime
 
 from src.config import (
     GROQ_API_KEY,
@@ -20,17 +21,19 @@ from src.config import (
     TOP_K_RESULTS,
     LLM_TEMPERATURE,
 )
-from src.parsing.loader import load_document
+from src.parsing.loader import load_document, chunk_text
 from src.parsing.resume_parser import parse_resume
-from src.search.job_search import JobSearchEngine, calculate_skill_match
+from src.search.embed import generate_embedding
+from src.search.job_search import JobSearchEngine, calculate_skill_match, compute_hybrid_score, _compute_role_similarity, _compute_experience_similarity, _compute_education_similarity
 from src.generate.cv_suggestions import CVSuggestionGenerator
-from src.generate.prompts import MATCH_EXPLANATION_PROMPT
+from src.generate.resume_tailor import tailor_resume
+from src.generate.prompts import MATCH_EXPLANATION_EVIDENCE_PROMPT
 from src.mentor.rag_chain import CareerMentorRAG
 from src.safety.guardrails import check_input_safety, validate_resume_text
 
 st.set_page_config(
     page_title="SmartHire GenAI",
-    page_icon="smart",
+    page_icon="🚀",
     layout="wide",
     initial_sidebar_state="expanded",
 )
@@ -166,15 +169,54 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 
+def _compute_resume_id(resume_data) -> str:
+    """Compute a stable resume identifier for caching.
+
+    Args:
+        resume_data: Parsed ResumeData object.
+
+    Returns:
+        Stable hash string.
+    """
+    if resume_data and resume_data.name:
+        raw = f"{resume_data.name}|{resume_data.email}"
+    else:
+        raw = str(datetime.now().timestamp())
+    return str(hash(raw))
+
+
+def _compute_job_id(job: dict) -> str:
+    """Compute a stable job identifier for caching.
+
+    Args:
+        job: Job dictionary.
+
+    Returns:
+        Stable hash string.
+    """
+    raw = f"{job.get('title', '')}|{job.get('company', '')}"
+    return str(hash(raw))
+
+
 def init_session_state() -> None:
     """Initialize session state variables."""
     defaults = {
         "resume_data": None,
         "resume_text": None,
+        "candidate_embedding": None,
+        "resume_chunks": None,
+        "resume_processed_at": None,
+        "resume_parsed": False,
+        "resume_id": None,
         "job_matches": None,
         "selected_job": None,
+        "selected_job_id": None,
         "cv_suggestions": None,
+        "cv_suggestions_generated": False,
+        "resume_tailoring_result": None,
+        "resume_tailoring_generated": False,
         "mentor_history": [],
+        "mentor_initialized": False,
     }
     for key, value in defaults.items():
         if key not in st.session_state:
@@ -197,6 +239,7 @@ def render_sidebar() -> str:
             "Resume Upload",
             "Job Matches",
             "CV Suggestions",
+            "Resume Tailoring",
             "AI Career Mentor",
             "Evaluation",
         ]
@@ -214,6 +257,8 @@ def render_sidebar() -> str:
             st.write(f"**{st.session_state.resume_data.name}**")
             if st.session_state.resume_data.target_role:
                 st.caption(f"Target: {st.session_state.resume_data.target_role}")
+            if st.session_state.resume_parsed:
+                st.caption("Embedded and cached")
         else:
             st.warning("No Resume Uploaded")
 
@@ -266,7 +311,10 @@ def generate_match_explanation(
     matched_skills: list[str],
     missing_skills: list[str],
 ) -> str:
-    """Generate an AI explanation for why a job matches the candidate.
+    """Generate a grounded, evidence-based AI explanation for job match.
+
+    Uses structured evidence (role similarity, skill overlap, experience/education
+    similarity) to produce factual explanations without fabrication.
 
     Args:
         api_key: Groq API key.
@@ -282,26 +330,147 @@ def generate_match_explanation(
         from groq import Groq
 
         client = Groq(api_key=api_key)
-        prompt = MATCH_EXPLANATION_PROMPT.format(
-            candidate_skills=", ".join(resume_data.skills),
-            target_role=resume_data.target_role,
+
+        skill_score = job.get("skill_overlap_score", 0)
+        role_sim = job.get("role_similarity", 0)
+        exp_sim = job.get("hybrid_score_components", {}).get("experience_similarity", 0)
+        edu_sim = job.get("hybrid_score_components", {}).get("education_similarity", 0)
+
+        prompt = MATCH_EXPLANATION_EVIDENCE_PROMPT.format(
+            target_role=resume_data.target_role or "Not specified",
+            candidate_skills=", ".join(resume_data.skills) if resume_data.skills else "None",
             job_title=job.get("title", ""),
             job_skills=job.get("skills", ""),
-            matched_skills=", ".join(matched_skills),
-            missing_skills=", ".join(missing_skills),
-            match_score=f"{job.get('match_score', 0) * 100:.1f}%",
+            skill_match_score=f"{skill_score:.2f}",
+            matched_skills=", ".join(matched_skills) if matched_skills else "None",
+            missing_skills=", ".join(missing_skills) if missing_skills else "None",
+            role_similarity=f"{role_sim:.2f}",
+            experience_similarity=f"{exp_sim:.2f}",
+            education_similarity=f"{edu_sim:.2f}",
+            match_score=f"{job.get('match_score', 0):.2f}",
         )
 
         response = client.chat.completions.create(
             model=GROQ_MODEL,
             messages=[{"role": "user", "content": prompt}],
-            temperature=LLM_TEMPERATURE,
+            temperature=0.1,
             max_tokens=300,
         )
         return response.choices[0].message.content.strip()
 
     except Exception:
         return ""
+
+
+def build_resume_profile(resume_data) -> str:
+    """Build a concise resume profile string for downstream reuse.
+
+    Args:
+        resume_data: Parsed ResumeData object.
+
+    Returns:
+        Formatted profile text.
+    """
+    parts = []
+    if resume_data.target_role:
+        parts.append(f"Target Role: {resume_data.target_role}")
+    if resume_data.summary:
+        parts.append(f"Summary: {resume_data.summary}")
+    if resume_data.skills:
+        parts.append(f"Skills: {', '.join(resume_data.skills)}")
+    if resume_data.experience:
+        parts.append(f"Experience: {'; '.join(resume_data.experience)}")
+    if resume_data.education:
+        parts.append(f"Education: {'; '.join(resume_data.education)}")
+    if resume_data.projects:
+        parts.append(f"Projects: {'; '.join(resume_data.projects)}")
+    if resume_data.certifications:
+        parts.append(f"Certifications: {'; '.join(resume_data.certifications)}")
+    return " | ".join(parts)
+
+
+def _run_upload_pipeline(text: str) -> bool:
+    """Run the complete upload pipeline: parse, embed, search, match.
+
+    Computes and caches all reusable artifacts at once so downstream
+    modules never recompute them.
+
+    Args:
+        text: Raw resume text.
+
+    Returns:
+        True if pipeline completed successfully.
+    """
+    with st.spinner("Analyzing resume with AI... This may take a moment."):
+        resume_data = parse_resume(text, GROQ_API_KEY)
+
+    if not resume_data:
+        st.error("Failed to parse resume. The document may be too short or contain unsupported content.")
+        return False
+
+    st.session_state.resume_data = resume_data
+    st.session_state.resume_id = _compute_resume_id(resume_data)
+
+    with st.spinner("Generating candidate profile embedding..."):
+        profile_text = build_resume_profile(resume_data)
+        embedding = generate_embedding(profile_text)
+        chunks = chunk_text(text)
+
+        st.session_state.candidate_embedding = embedding
+        st.session_state.resume_chunks = chunks
+        st.session_state.resume_processed_at = datetime.now().isoformat()
+        st.session_state.resume_parsed = True
+
+    with st.spinner("Finding job matches..."):
+        engine = get_job_search_engine()
+
+        if embedding is not None:
+            raw_results = engine.search_by_embedding(embedding, top_k=TOP_K_RESULTS * 2)
+        else:
+            query = f"{resume_data.target_role} {' '.join(resume_data.skills)}"
+            raw_results = engine.search(query, top_k=TOP_K_RESULTS * 2)
+
+        enhanced_results = []
+        for job in raw_results:
+            matched, missing, _, _, skill_score = calculate_skill_match(
+                resume_data.skills, job.get("skills", "")
+            )
+
+            role_sim = _compute_role_similarity(
+                resume_data.target_role, job.get("title", "")
+            )
+            exp_sim = _compute_experience_similarity(
+                resume_data.experience, job.get("experience", "")
+            )
+            edu_sim = _compute_education_similarity(
+                resume_data.education, job.get("education", "")
+            )
+
+            hybrid = compute_hybrid_score(
+                semantic_score=job.get("match_score", 0),
+                skill_score=skill_score,
+                role_similarity=role_sim,
+                experience_similarity=exp_sim,
+                education_similarity=edu_sim,
+                candidate_role=resume_data.target_role,
+                job_title=job.get("title", ""),
+            )
+
+            job["match_score"] = hybrid["final_score"]
+            job["hybrid_score_components"] = hybrid["components"]
+            job["role_penalty"] = hybrid["role_penalty"]
+            job["matched_skills"] = matched
+            job["missing_skills"] = missing
+            job["skill_overlap_score"] = round(skill_score, 4)
+            job["role_similarity"] = round(role_sim, 4)
+            enhanced_results.append(job)
+
+        enhanced_results.sort(key=lambda j: j["match_score"], reverse=True)
+        enhanced_results = enhanced_results[:TOP_K_RESULTS]
+
+        st.session_state.job_matches = enhanced_results
+
+    return True
 
 
 def render_home() -> None:
@@ -401,15 +570,13 @@ def render_resume_upload() -> None:
 
             st.session_state.resume_text = text
 
-            with st.spinner("Analyzing resume with AI... This may take a moment."):
-                resume_data = parse_resume(text, GROQ_API_KEY)
-
-            if not resume_data:
-                st.error("Failed to parse resume. The document may be too short or contain unsupported content.")
+            success = _run_upload_pipeline(text)
+            if not success:
                 return
 
-            st.session_state.resume_data = resume_data
-            st.success("Resume parsed successfully!")
+            resume_data = st.session_state.resume_data
+
+            st.success("Resume parsed and job matches computed successfully!")
 
             st.subheader("Parsed Resume Information")
 
@@ -440,14 +607,37 @@ def render_resume_upload() -> None:
                 for exp in resume_data.experience:
                     st.write(f"  - {exp}")
 
-            st.info("Go to **Job Matches** to find matching positions.")
+            if resume_data.projects:
+                st.write("**Projects:**")
+                for proj in resume_data.projects:
+                    st.write(f"  - {proj}")
+
+            if resume_data.certifications:
+                st.write("**Certifications:**")
+                for cert in resume_data.certifications:
+                    st.write(f"  - {cert}")
+
+            if resume_data.awards:
+                st.write("**Awards:**")
+                for award in resume_data.awards:
+                    st.write(f"  - {award}")
+
+            if resume_data.languages:
+                st.write("**Languages:**")
+                for lang in resume_data.languages:
+                    st.write(f"  - {lang}")
+
+            st.info("Go to **Job Matches** to see matching positions.")
 
             if st.button("Go to Job Matches", type="primary", key="goto_job_matches"):
                 st.session_state.navigate_to = "Job Matches"
                 st.rerun()
 
         finally:
-            os.unlink(tmp_path)
+            try:
+                os.unlink(tmp_path)
+            except OSError:
+                pass
 
 
 def render_job_matches() -> None:
@@ -463,29 +653,13 @@ def render_job_matches() -> None:
         st.error("Job database not found. Please ensure `data/jobs/jobs.json` exists.")
         return
 
-    with st.spinner("Loading job database and finding matches..."):
-        engine = get_job_search_engine()
-
-        resume_data = st.session_state.resume_data
-        query = f"{resume_data.target_role} {' '.join(resume_data.skills)}"
-        results = engine.search(query, top_k=TOP_K_RESULTS)
-
-        enhanced_results = []
-        for job in results:
-            matched, missing = calculate_skill_match(
-                resume_data.skills, job.get("skills", "")
-            )
-            job["matched_skills"] = matched
-            job["missing_skills"] = missing
-            enhanced_results.append(job)
-
-        st.session_state.job_matches = enhanced_results
+    enhanced_results = st.session_state.job_matches
 
     if not enhanced_results:
         st.info("No matching jobs found. Try uploading a resume with more specific skills.")
         return
 
-    st.write(f"### Found {len(enhanced_results)} matching jobs from {engine.index.ntotal} total")
+    st.write(f"### Found {len(enhanced_results)} matching jobs")
 
     for i, job in enumerate(enhanced_results):
         score_pct = job.get("match_score", 0) * 100
@@ -521,10 +695,21 @@ def render_job_matches() -> None:
                     ])
                     st.markdown(skills_html, unsafe_allow_html=True)
 
+            hybrid_components = job.get("hybrid_score_components", {})
+            if hybrid_components:
+                st.write("**Score Breakdown:**")
+                st.write(f"  - **Semantic Similarity:** {hybrid_components.get('semantic', 0)*100:.1f}%")
+                st.write(f"  - **Skill Overlap:** {hybrid_components.get('skill_overlap', 0)*100:.1f}%")
+                st.write(f"  - **Role Similarity:** {hybrid_components.get('role_similarity', 0)*100:.1f}%")
+                st.write(f"  - **Experience Relevance:** {hybrid_components.get('experience_similarity', 0)*100:.1f}%")
+                st.write(f"  - **Education Relevance:** {hybrid_components.get('education_similarity', 0)*100:.1f}%")
+                if job.get("role_penalty", 1.0) < 1.0:
+                    st.write(f"  - **Role Mismatch Penalty:** {job['role_penalty']}x")
+
             with st.spinner("Generating AI analysis..."):
                 explanation = generate_match_explanation(
                     GROQ_API_KEY,
-                    resume_data,
+                    st.session_state.resume_data,
                     job,
                     job.get("matched_skills", []),
                     job.get("missing_skills", []),
@@ -537,13 +722,23 @@ def render_job_matches() -> None:
 
             if st.button(f"Get CV Suggestions for this role", key=f"suggest_{i}"):
                 st.session_state.selected_job = job
+                st.session_state.selected_job_id = _compute_job_id(job)
                 st.session_state.cv_suggestions = None
+                st.session_state.cv_suggestions_generated = False
                 st.session_state.navigate_to = "CV Suggestions"
+                st.rerun()
+
+            if st.button(f"Rewrite My Resume for this role", key=f"tailor_{i}"):
+                st.session_state.selected_job = job
+                st.session_state.selected_job_id = _compute_job_id(job)
+                st.session_state.resume_tailoring_result = None
+                st.session_state.resume_tailoring_generated = False
+                st.session_state.navigate_to = "Resume Tailoring"
                 st.rerun()
 
 
 def render_cv_suggestions() -> None:
-    """Render the CV Suggestions page."""
+    """Render the CV Suggestions page (lazy generation)."""
     st.header("CV Improvement Suggestions")
 
     if not st.session_state.resume_data:
@@ -566,6 +761,11 @@ def render_cv_suggestions() -> None:
         st.write("**Required Skills:**")
         st.write(job.get("skills", "N/A"))
 
+    if st.session_state.cv_suggestions_generated and st.session_state.cv_suggestions:
+        st.info("Suggestions already generated. Click again to regenerate.")
+    else:
+        st.info("Click **Generate Suggestions** to get AI-powered improvement suggestions.")
+
     if st.button("Generate Suggestions", type="primary", key="generate_suggestions"):
         with st.spinner("Generating AI-powered improvement suggestions..."):
             generator = CVSuggestionGenerator(GROQ_API_KEY)
@@ -574,10 +774,15 @@ def render_cv_suggestions() -> None:
                 job.get("title", ""),
                 job.get("description", ""),
                 job.get("skills", ""),
+                matched_skills=job.get("matched_skills", []),
+                missing_skills=job.get("missing_skills", []),
+                resume_id=st.session_state.resume_id,
+                job_id=st.session_state.selected_job_id,
             )
 
             if suggestions:
                 st.session_state.cv_suggestions = suggestions
+                st.session_state.cv_suggestions_generated = True
             else:
                 st.error("Failed to generate suggestions. Please try again.")
 
@@ -588,10 +793,22 @@ def render_cv_suggestions() -> None:
 
         st.subheader("Missing Skills")
         if suggestions.get("missing_skills"):
-            for skill in suggestions["missing_skills"]:
+            missing = suggestions["missing_skills"]
+            for skill in missing:
                 st.write(f"  - {skill}")
         else:
             st.info("No missing skills identified — great match!")
+
+        if suggestions.get("missing_skills_analysis"):
+            analysis = suggestions["missing_skills_analysis"]
+            if analysis.get("required_missing"):
+                with st.expander("Required Skills"):
+                    for skill in analysis["required_missing"]:
+                        st.write(f"  - {skill}")
+            if analysis.get("preferred_missing"):
+                with st.expander("Preferred Skills (nice-to-have)"):
+                    for skill in analysis["preferred_missing"]:
+                        st.write(f"  - {skill}")
 
         st.subheader("Professional Summary Rewrite")
         if suggestions.get("summary_rewrite"):
@@ -601,6 +818,278 @@ def render_cv_suggestions() -> None:
         if suggestions.get("improvements"):
             for improvement in suggestions["improvements"]:
                 st.write(f"  - {improvement}")
+
+
+def render_resume_tailoring() -> None:
+    """Render the Resume Tailoring page (lazy generation)."""
+    st.header("Rewrite My Resume for This Job")
+
+    if not st.session_state.resume_data:
+        st.warning("Please upload a resume first on the **Resume Upload** page.")
+        return
+
+    if not st.session_state.selected_job:
+        st.info("Please select a job from the **Job Matches** page first.")
+        return
+
+    job = st.session_state.selected_job
+
+    st.subheader(f"Tailoring for: {job.get('title', 'Unknown')}")
+
+    col1, col2 = st.columns(2)
+    with col1:
+        st.write(f"**Target Role:** {job.get('title', 'N/A')}")
+        st.write(f"**Match Score:** {job.get('match_score', 0)*100:.1f}%")
+    with col2:
+        st.write("**Required Skills:**")
+        st.write(job.get("skills", "N/A"))
+
+    if job.get("matched_skills"):
+        st.write("**Matched Skills:**")
+        skills_html = " ".join([
+            f'<span class="skill-tag matched-skill">{s}</span>'
+            for s in job["matched_skills"]
+        ])
+        st.markdown(skills_html, unsafe_allow_html=True)
+
+    if job.get("missing_skills"):
+        st.write("**Missing Skills:**")
+        skills_html = " ".join([
+            f'<span class="skill-tag missing-skill">{s}</span>'
+            for s in job["missing_skills"]
+        ])
+        st.markdown(skills_html, unsafe_allow_html=True)
+
+    st.divider()
+
+    if st.session_state.resume_tailoring_generated and st.session_state.resume_tailoring_result:
+        st.info("Tailored resume already generated for this job. Click again to regenerate.")
+    else:
+        st.info("Click **Rewrite My Resume for This Job** to generate a tailored version.")
+
+    if st.button("Rewrite My Resume for This Job", type="primary", key="tailor_resume_btn"):
+        with st.spinner("Analyzing your resume and generating tailored version... This may take a moment."):
+            match_analysis = {
+                "matched_skills": job.get("matched_skills", []),
+                "missing_skills": job.get("missing_skills", []),
+                "match_score": job.get("match_score", 0),
+                "score_components": job.get("hybrid_score_components", {}),
+            }
+            ats_score = job.get("match_score", 0) * 100
+
+            recommendations = []
+            if st.session_state.cv_suggestions:
+                cv = st.session_state.cv_suggestions
+                if cv.get("missing_skills"):
+                    recommendations.append(f"Missing skills: {', '.join(cv['missing_skills'])}")
+                if cv.get("improvements"):
+                    recommendations.extend(cv["improvements"])
+
+            try:
+                result = tailor_resume(
+                    parsed_resume=st.session_state.resume_data,
+                    selected_job=job,
+                    match_analysis=match_analysis,
+                    ats_score=ats_score,
+                    matched_skills=job.get("matched_skills", []),
+                    missing_skills=job.get("missing_skills", []),
+                    recommendations=recommendations,
+                    section_analysis=None,
+                    api_key=GROQ_API_KEY,
+                    resume_id=st.session_state.resume_id,
+                    job_id=st.session_state.selected_job_id,
+                )
+
+                if result:
+                    st.session_state.resume_tailoring_result = result
+                    st.session_state.resume_tailoring_generated = True
+                else:
+                    st.error("Failed to generate tailored resume. Please try again.")
+            except Exception as e:
+                st.error(f"Error generating tailored resume: {str(e)}")
+                st.info("Please try again. If the problem persists, try refreshing the page.")
+
+    if st.session_state.resume_tailoring_result:
+        result = st.session_state.resume_tailoring_result
+
+        st.divider()
+
+        st.subheader("Tailoring Plan")
+        plan = result.get("tailoring_plan", {})
+        if plan:
+            col1, col2 = st.columns(2)
+            with col1:
+                if plan.get("strong_sections"):
+                    st.write("**Strong Sections (kept as-is):**")
+                    for s in plan["strong_sections"]:
+                        st.write(f"  - {s}")
+                if plan.get("keywords_to_emphasize"):
+                    st.write("**Keywords to Emphasize:**")
+                    for k in plan["keywords_to_emphasize"]:
+                        st.write(f"  - {k}")
+            with col2:
+                if plan.get("sections_to_improve"):
+                    st.write("**Sections Improved:**")
+                    for s in plan["sections_to_improve"]:
+                        st.write(f"  - {s}")
+                if plan.get("remaining_gaps"):
+                    st.write("**Remaining Skill Gaps:**")
+                    for g in plan["remaining_gaps"]:
+                        st.write(f"  - {g}")
+
+        st.divider()
+
+        st.subheader("Section-by-Section Explanation")
+        explanations = result.get("section_explanations", {})
+
+        section_order = [
+            ("summary", "Professional Summary"),
+            ("skills", "Skills"),
+            ("experience", "Experience"),
+            ("projects", "Projects"),
+            ("education", "Education"),
+            ("certifications", "Certifications"),
+            ("awards", "Awards"),
+            ("languages", "Languages"),
+        ]
+
+        for key, label in section_order:
+            if key in explanations:
+                section = explanations[key]
+                status = section.get("status", "Kept")
+                reason = section.get("reason", "")
+                confidence = section.get("confidence", "Medium")
+
+                if status == "Kept":
+                    badge_class = "badge-excellent"
+                elif status in ("Improved", "Slightly Modified"):
+                    badge_class = "badge-strong"
+                else:
+                    badge_class = "badge-warn"
+
+                st.markdown(
+                    f'<span class="status-badge {badge_class}">{label} — {status} (Confidence: {confidence})</span>',
+                    unsafe_allow_html=True,
+                )
+                st.caption(reason)
+
+        st.divider()
+
+        st.subheader("Change Log")
+        change_log = result.get("change_log", [])
+        if change_log:
+            for entry in change_log:
+                section = entry.get("section", "Unknown")
+                before = entry.get("before", "")
+                after = entry.get("after", "")
+                reason = entry.get("reason", "")
+
+                with st.expander(f"{section}"):
+                    st.write(f"**Before:** {before}")
+                    st.write(f"**After:** {after}")
+                    st.write(f"**Reason:** {reason}")
+        else:
+            st.info("No changes were made — your resume was already well-aligned.")
+
+        st.divider()
+
+        st.subheader("Integrity Report")
+        integrity = result.get("integrity_report", {})
+        checks = [
+            ("No employers added", not integrity.get("employers_added", False)),
+            ("No projects invented", not integrity.get("projects_invented", False)),
+            ("No unsupported skills added", not integrity.get("unsupported_skills_added", False)),
+            ("No certifications fabricated", not integrity.get("certifications_fabricated", False)),
+            ("No dates changed", not integrity.get("dates_changed", False)),
+            ("No company names modified", not integrity.get("company_names_modified", False)),
+            ("No numerical achievements invented", not integrity.get("numerical_achievements_invented", False)),
+            ("Resume remains factually accurate", integrity.get("resume_factually_accurate", True)),
+        ]
+        for label, passed in checks:
+            icon = "✓" if passed else "✗"
+            color = "#276749" if passed else "#9b2c2c"
+            st.markdown(
+                f'<span style="color:{color}; font-weight:bold;">{icon} {label}</span>',
+                unsafe_allow_html=True,
+            )
+
+        st.divider()
+
+        st.subheader("Tailored Resume")
+        tailored = result.get("tailored_resume", {})
+
+        resume_parts = []
+        if tailored.get("name"):
+            resume_parts.append(f"**{tailored['name']}**")
+        if tailored.get("email"):
+            resume_parts.append(tailored["email"])
+        if tailored.get("summary"):
+            resume_parts.append(f"\n## Professional Summary\n\n{tailored['summary']}")
+        if tailored.get("skills"):
+            resume_parts.append(f"## Skills\n\n{', '.join(tailored['skills'])}")
+        if tailored.get("experience"):
+            exp_text = "\n\n".join([f"- {e}" for e in tailored["experience"]])
+            resume_parts.append(f"## Experience\n\n{exp_text}")
+        if tailored.get("projects"):
+            proj_text = "\n\n".join([f"- {p}" for p in tailored["projects"]])
+            resume_parts.append(f"## Projects\n\n{proj_text}")
+        if tailored.get("education"):
+            edu_text = "\n\n".join([f"- {e}" for e in tailored["education"]])
+            resume_parts.append(f"## Education\n\n{edu_text}")
+        if tailored.get("certifications"):
+            certs_text = "\n\n".join([f"- {c}" for c in tailored["certifications"]])
+            resume_parts.append(f"## Certifications\n\n{certs_text}")
+        if tailored.get("awards"):
+            awards_text = "\n\n".join([f"- {a}" for a in tailored["awards"]])
+            resume_parts.append(f"## Awards\n\n{awards_text}")
+        if tailored.get("languages"):
+            langs_text = "\n\n".join([f"- {l}" for l in tailored["languages"]])
+            resume_parts.append(f"## Languages\n\n{langs_text}")
+
+        tailored_resume_md = "\n\n".join(resume_parts)
+
+        st.markdown(tailored_resume_md)
+
+        st.divider()
+        st.subheader("Confidence Scores")
+        scores = result.get("confidence_scores", {})
+        if scores:
+            cols = st.columns(5)
+            metric_labels = [
+                ("overall", "Overall"),
+                ("summary", "Summary"),
+                ("skills", "Skills"),
+                ("experience", "Experience"),
+                ("projects", "Projects"),
+            ]
+            for i, (key, label) in enumerate(metric_labels):
+                if key in scores:
+                    val = scores[key]
+                    color = "#276749" if val == "High" else ("#856404" if val == "Medium" else "#9b2c2c")
+                    cols[i].markdown(
+                        f'<div style="text-align:center;"><div style="font-size:0.85rem;color:#666;">{label}</div>'
+                        f'<div style="font-size:1.1rem;font-weight:bold;color:{color};">{val}</div></div>',
+                        unsafe_allow_html=True,
+                    )
+
+        st.divider()
+        col1, col2 = st.columns(2)
+        with col1:
+            st.download_button(
+                "Download Tailored Resume (Markdown)",
+                data=tailored_resume_md,
+                file_name="tailored_resume.md",
+                mime="text/markdown",
+                key="download_tailored_resume_md",
+            )
+        with col2:
+            st.download_button(
+                "Download Tailoring Report (JSON)",
+                data=json.dumps(result, indent=2),
+                file_name="tailoring_report.json",
+                mime="application/json",
+                key="download_tailoring_report",
+            )
 
 
 _MENTOR_INTRODUCTION = (
@@ -644,7 +1133,7 @@ def _is_greeting(text: str) -> bool:
 
 
 def render_career_mentor() -> None:
-    """Render the AI Career Mentor page."""
+    """Render the AI Career Mentor page (lazy initialization)."""
     st.header("AI Career Mentor")
 
     st.write("Ask career-related questions and get expert advice powered by AI and grounded in a knowledge base.")
@@ -697,22 +1186,36 @@ def render_career_mentor() -> None:
                     "sources": [],
                 })
             else:
-                with st.spinner("Researching your question..."):
-                    knowledge_dir = str(CAREER_NOTES_DIR)
-                    mentor = get_mentor_rag(GROQ_API_KEY, knowledge_dir)
-                    response = mentor.answer(prompt, session_id="mentor")
-                    st.write(response["answer"])
+                try:
+                    with st.spinner("Researching your question..."):
+                        knowledge_dir = str(CAREER_NOTES_DIR)
+                        mentor = get_mentor_rag(GROQ_API_KEY, knowledge_dir)
 
-                    if response.get("sources"):
-                        with st.expander("Sources Used"):
-                            for source in response["sources"]:
-                                st.write(f"  - {source}")
+                        resume_text = None
+                        if st.session_state.resume_parsed and st.session_state.resume_data:
+                            resume_text = build_resume_profile(st.session_state.resume_data)
 
-                st.session_state.mentor_history.append({
-                    "role": "assistant",
-                    "content": response["answer"],
-                    "sources": response.get("sources", []),
-                })
+                        response = mentor.answer(
+                            prompt,
+                            session_id="mentor",
+                            resume_context=resume_text,
+                        )
+                        st.write(response.get("answer", ""))
+
+                        if response.get("sources"):
+                            with st.expander("Sources Used"):
+                                for source in response["sources"]:
+                                    st.write(f"  - {source}")
+
+                    st.session_state.mentor_history.append({
+                        "role": "assistant",
+                        "content": response.get("answer", ""),
+                        "sources": response.get("sources", []),
+                    })
+                except Exception as e:
+                    st.error(f"Failed to get response: {e}")
+
+    st.session_state.mentor_initialized = True
 
 
 METRIC_RENAMES = {
@@ -722,16 +1225,7 @@ METRIC_RENAMES = {
 
 
 def _get_metric_badge(status: str, score: float, name: str) -> tuple[str, str]:
-    """Return (label, css_class) for a metric badge.
-
-    Args:
-        status: Raw status from the report (PASS, FRAMEWORK_LIMITATION, etc.).
-        score: Numeric score (0-1).
-        name: Metric name for special-case handling.
-
-    Returns:
-        Tuple of (display label, CSS class name).
-    """
+    """Return (label, css_class) for a metric badge."""
     if status == "PASS":
         if score >= 0.95:
             return "Excellent", "badge-excellent"
@@ -784,7 +1278,6 @@ def render_evaluation() -> None:
         with open(report_file, "r", encoding="utf-8") as f:
             report = json.load(f)
 
-    # ── Task 2: Overall Evaluation Summary ──────────────────────────────
     st.markdown("")
     summary_html = """
     <div class="summary-card">
@@ -802,7 +1295,6 @@ def render_evaluation() -> None:
     """
     st.markdown(summary_html, unsafe_allow_html=True)
 
-    # ── Dataset ─────────────────────────────────────────────────────────
     st.subheader("Dataset")
     dataset = report.get("dataset", {})
     col1, col2, col3, col4 = st.columns(4)
@@ -817,7 +1309,6 @@ def render_evaluation() -> None:
 
     st.divider()
 
-    # ── Evaluation Metrics (Task 1 + Task 4) ────────────────────────────
     st.subheader("Evaluation Metrics")
     metrics = report.get("metrics", [])
 
@@ -842,11 +1333,9 @@ def render_evaluation() -> None:
                 unsafe_allow_html=True,
             )
 
-    # ── Task 3: Methodology Expander ────────────────────────────────────
     st.divider()
     _render_methodology_expander()
 
-    # ── Retrieval Test Results (Task 5: collapsed) ──────────────────────
     st.subheader("Retrieval Test Results")
     retrieval = report.get("retrieval_detail", {})
     if retrieval.get("results"):
@@ -868,7 +1357,6 @@ def render_evaluation() -> None:
 
     st.divider()
 
-    # ── Task 6: System Quality Indicators ───────────────────────────────
     st.subheader("System Safeguards")
     components = report.get("system_components", {})
     kb_info = components.get("career_mentor", {}).get("knowledge_base", "7 files")
@@ -894,6 +1382,14 @@ def render_evaluation() -> None:
             )
 
 
+def _scroll_to_top() -> None:
+    """Inject JavaScript to scroll the page to the top."""
+    st.markdown(
+        "<script>window.scrollTo(0, 0);</script>",
+        unsafe_allow_html=True,
+    )
+
+
 def main() -> None:
     """Main application entry point."""
     init_session_state()
@@ -907,10 +1403,14 @@ def main() -> None:
         render_job_matches()
     elif page == "CV Suggestions":
         render_cv_suggestions()
+    elif page == "Resume Tailoring":
+        render_resume_tailoring()
     elif page == "AI Career Mentor":
         render_career_mentor()
     elif page == "Evaluation":
         render_evaluation()
+
+    _scroll_to_top()
 
 
 if __name__ == "__main__":

@@ -10,7 +10,9 @@ from src.search.job_search import JobSearchEngine
 
 def main():
     engine = JobSearchEngine()
-    engine.load_index(str(VECTORSTORE_DIR))
+    if not engine.load_index(str(VECTORSTORE_DIR)):
+        print(f"Error: Could not load index from {VECTORSTORE_DIR}")
+        sys.exit(1)
 
     test_queries = [
         ("Python developer with machine learning experience", ["software engineer", "data scientist", "machine learning", "python"]),

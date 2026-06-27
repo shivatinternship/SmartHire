@@ -4,6 +4,8 @@ import logging
 from pathlib import Path
 from typing import Optional
 
+from src.config import CHUNK_SIZE, CHUNK_OVERLAP
+
 logger = logging.getLogger(__name__)
 
 
@@ -69,3 +71,29 @@ def load_document(file_path: str) -> Optional[str]:
     else:
         logger.error(f"Unsupported file format: {suffix}")
         return None
+
+
+def chunk_text(text: str) -> list[str]:
+    """Split text into chunks using RecursiveCharacterTextSplitter.
+
+    Args:
+        text: Raw text to chunk.
+
+    Returns:
+        List of text chunks.
+    """
+    try:
+        from langchain_text_splitters import RecursiveCharacterTextSplitter
+
+        splitter = RecursiveCharacterTextSplitter(
+            chunk_size=CHUNK_SIZE,
+            chunk_overlap=CHUNK_OVERLAP,
+            length_function=len,
+            separators=["\n\n", "\n", ". ", " ", ""],
+        )
+        chunks = splitter.split_text(text)
+        logger.info(f"Split text into {len(chunks)} chunks")
+        return chunks
+    except Exception as e:
+        logger.error(f"Error chunking text: {e}")
+        return [text]
