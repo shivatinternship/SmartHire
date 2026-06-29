@@ -3,12 +3,11 @@
 import json
 import logging
 import re
-import traceback
 from typing import Optional
 
 from pydantic import BaseModel, Field
 
-from src.config import GROQ_MODEL, LLM_TEMPERATURE, RESUME_TEXT_MAX_CHARS
+from src.config import GROQ_MODEL, RESUME_TEXT_MAX_CHARS
 from src.normalization import normalize_skills, deduplicate_skills
 
 logger = logging.getLogger(__name__)

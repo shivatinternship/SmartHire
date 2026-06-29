@@ -20,7 +20,7 @@ This document provides a comprehensive compliance audit of the SmartHire GenAI p
 
 **Evidence**:
 - `src/evaluate.py:77-211` - Comprehensive RAG quality evaluation with correctness, groundedness, and helpfulness metrics
-- `reports/evaluation_report_final.json:22-82` - Evaluation results showing 83.3% helpfulness score
+- `reports/evaluation_report.json` - Evaluation results showing 83.3% helpfulness score
 - `src/mentor/rag_chain.py:95-122` - MENTOR_PROMPT_TEMPLATE with quality constraints
 
 **Details**: System evaluates mentor responses using TF-IDF cosine similarity for correctness, key-phrase overlap for groundedness, and multi-signal scoring for helpfulness.
@@ -30,7 +30,7 @@ This document provides a comprehensive compliance audit of the SmartHire GenAI p
 
 **Evidence**:
 - `src/evaluate.py:213-265` - Prompt version comparison evaluation framework
-- `reports/evaluation_report_final.json:70-75` - V2 showing 80.00% vs V1 66.75% (+19.9% improvement)
+- `reports/evaluation_report.json` - V2 showing 80.00% vs V1 66.75% (+19.9% improvement)
 - `reports/prompt_comparison.md` - Detailed before/after example with V1 and V2 prompts
 
 **Details**: V2 prompt includes hallucination prevention instructions and structured response format, demonstrating significant improvement.
@@ -99,8 +99,7 @@ This document provides a comprehensive compliance audit of the SmartHire GenAI p
 **Status**: ✅ COMPLETE
 
 **Evidence**:
-- `reports/evaluation_report_final.json:1-149` - Comprehensive evaluation report
-- `reports/evaluation_report.json:1-38` - Initial evaluation report
+- `reports/evaluation_report.json` - Comprehensive evaluation report (unified authoritative report)
 - `reports/retrieval_evaluation.json:1-84` - Retrieval-specific evaluation
 
 **Details**: Detailed reports covering all evaluation metrics and system performance.
@@ -124,6 +123,16 @@ This document provides a comprehensive compliance audit of the SmartHire GenAI p
 - `app/streamlit_app.py` - Production-ready application
 
 **Details**: Repository includes all necessary files for deployment to Streamlit Cloud.
+
+## Overall System Status
+
+| Component | Status | Details |
+|-----------|--------|---------|
+| Retrieval Quality | Excellent | Hit@5: 100% on 3,000 real Kaggle jobs |
+| Guardrails | Excellent | 100% accuracy (10/10 test cases) |
+| Semantic Search | Excellent | FAISS IndexFlatIP with BAAI/bge-small-en-v1.5 embeddings |
+| RAG Helpfulness | Good | 83% multi-signal actionability score |
+| Dataset Coverage | Excellent | 3,000 real job descriptions (Indeed + LinkedIn) |
 
 ## Summary
 

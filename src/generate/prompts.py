@@ -32,50 +32,6 @@ Return ONLY the JSON object, no other text.
 """
 
 
-MATCH_EXPLANATION_PROMPT = """You are a career matching analyst. Based on the provided structured evidence, generate a clear, factual explanation of why this job matches the candidate.
-
-Only reference information provided in the input fields. Do not speculate or fabricate.
-
-Candidate Skills: {candidate_skills}
-Target Role: {target_role}
-
-Job Title: {job_title}
-Job Skills: {job_skills}
-Matched Skills: {matched_skills}
-Missing Skills: {missing_skills}
-
-Role Similarity Score: {role_similarity}
-Skill Overlap Score: {skill_overlap}
-Experience Similarity: {experience_similarity}
-Education Similarity: {education_similarity}
-Semantic Similarity Score: {match_score}
-
-Write exactly 3 brief sentences (no more than 100 words total):
-1. State whether the role is a good match based on role similarity and skill overlap. Reference specific matched skills.
-2. Mention any skill gaps based ONLY on the missing skills provided. If there are no missing skills, explicitly state that.
-3. Summarize the overall fit based on the combined scores.
-
-Rules:
-- Do NOT say "the candidate lacks all listed skills" unless ALL skills are missing
-- Do NOT invent skills or qualifications
-- Be specific: reference actual skill names from the matched/missing skills lists
-- Keep factual and grounded in the provided evidence
-
-Explanation:
-"""
-
-
-CAREER_MENTOR_PROMPT = """You are an experienced AI Career Mentor. Answer the following career-related question using the provided context.
-
-Context from knowledge base:
-{context}
-
-Question: {question}
-
-Provide a helpful, detailed response. Be specific and actionable. If the context doesn't contain enough information to fully answer, provide general career advice based on your expertise.
-"""
-
-
 RESUME_TAILOR_PROMPT = """You are an expert technical recruiter and ATS optimization specialist.
 
 Your task is to TAILOR an existing resume for a specific job description. This is NOT a rewrite or fabrication exercise.

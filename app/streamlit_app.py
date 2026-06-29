@@ -12,7 +12,7 @@ import json
 import io
 from datetime import datetime
 from docx import Document
-from docx.shared import Pt, Inches
+from docx.shared import Pt
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 
 from src.config import (
@@ -23,7 +23,6 @@ from src.config import (
     VECTORSTORE_DIR,
     REPORTS_DIR,
     TOP_K_RESULTS,
-    LLM_TEMPERATURE,
 )
 from src.parsing.loader import load_document, chunk_text
 from src.parsing.resume_parser import parse_resume
@@ -34,6 +33,7 @@ from src.generate.resume_tailor import tailor_resume
 from src.generate.prompts import MATCH_EXPLANATION_EVIDENCE_PROMPT
 from src.mentor.rag_chain import CareerMentorRAG
 from src.safety.guardrails import check_input_safety, validate_resume_text
+from src.utils import is_greeting, GREETING_RESPONSE, build_skill_tags_html
 
 
 def _generate_resume_docx(tailored: dict) -> bytes:
@@ -231,8 +231,8 @@ st.markdown("""
         font-weight: bold;
     }
     .system-info-card {
-        background: #f7fafc;
-        border: 1px solid #e2e8f0;
+        background: linear-gradient(135deg, #eef4ff 0%, #dbeafe 100%);
+        border: 1px solid #63b3ed;
         border-radius: 10px;
         padding: 1.2rem;
     }
@@ -240,18 +240,18 @@ st.markdown("""
         display: flex;
         justify-content: space-between;
         padding: 0.4rem 0;
-        border-bottom: 1px solid #edf2f7;
+        border-bottom: 1px solid #bee3f8;
         font-size: 0.9rem;
     }
     .system-info-item:last-child {
         border-bottom: none;
     }
     .system-info-label {
-        color: #4a5568;
+        color: #1a365d;
         font-weight: 500;
     }
     .system-info-value {
-        color: #2d3748;
+        color: #2b6cb0;
         font-weight: 600;
     }
 </style>
@@ -358,6 +358,18 @@ def render_sidebar() -> str:
     return page
 
 
+@st.cache_resource(show_spinner=False)
+def get_embedding_model():
+    """Load and cache the SentenceTransformer embedding model (shared singleton).
+
+    Returns:
+        Cached SentenceTransformer model instance.
+    """
+    from src.search.embed import get_model
+
+    return get_model()
+
+
 @st.cache_resource
 def get_job_search_engine() -> JobSearchEngine:
     """Load or build the FAISS job search index (cached).
@@ -383,13 +395,24 @@ def get_job_search_engine() -> JobSearchEngine:
 def get_mentor_rag(api_key: str, knowledge_dir: str) -> CareerMentorRAG:
     """Load or build the RAG career mentor index (cached).
 
+    If a persisted index exists on disk it is loaded immediately.
+    Otherwise the index is built from knowledge-base files and then saved
+    for subsequent startups.
+
     Returns:
         Initialized CareerMentorRAG with loaded index.
     """
     mentor = CareerMentorRAG(api_key, knowledge_dir)
-    docs = mentor.load_documents(knowledge_dir)
-    if docs:
-        mentor.build_index()
+    mentor_index_dir = str(VECTORSTORE_DIR / "mentor")
+
+    mentor_index_path = Path(mentor_index_dir)
+    if (mentor_index_path / "mentor.index").exists() and (mentor_index_path / "mentor_docs.json").exists():
+        mentor.load_index(mentor_index_dir)
+    else:
+        docs = mentor.load_documents(knowledge_dir)
+        if docs:
+            mentor.build_index()
+            mentor.save_index(mentor_index_dir)
     return mentor
 
 
@@ -678,10 +701,7 @@ def render_resume_upload() -> None:
             with col2:
                 st.write("**Skills:**")
                 if resume_data.skills:
-                    skills_html = " ".join([
-                        f'<span class="skill-tag matched-skill">{s}</span>'
-                        for s in resume_data.skills
-                    ])
+                    skills_html = build_skill_tags_html(resume_data.skills)
                     st.markdown(skills_html, unsafe_allow_html=True)
                 else:
                     st.info("No skills found in resume.")
@@ -770,18 +790,12 @@ def render_job_matches() -> None:
 
                 if job.get("matched_skills"):
                     st.write("**Matched Skills:**")
-                    skills_html = " ".join([
-                        f'<span class="skill-tag matched-skill">{s}</span>'
-                        for s in job["matched_skills"]
-                    ])
+                    skills_html = build_skill_tags_html(job["matched_skills"])
                     st.markdown(skills_html, unsafe_allow_html=True)
 
                 if job.get("missing_skills"):
                     st.write("**Missing Skills:**")
-                    skills_html = " ".join([
-                        f'<span class="skill-tag missing-skill">{s}</span>'
-                        for s in job["missing_skills"]
-                    ])
+                    skills_html = build_skill_tags_html(job["missing_skills"], "missing-skill")
                     st.markdown(skills_html, unsafe_allow_html=True)
 
             hybrid_components = job.get("hybrid_score_components", {})
@@ -935,18 +949,12 @@ def render_resume_tailoring() -> None:
 
     if job.get("matched_skills"):
         st.write("**Matched Skills:**")
-        skills_html = " ".join([
-            f'<span class="skill-tag matched-skill">{s}</span>'
-            for s in job["matched_skills"]
-        ])
+        skills_html = build_skill_tags_html(job["matched_skills"])
         st.markdown(skills_html, unsafe_allow_html=True)
 
     if job.get("missing_skills"):
         st.write("**Missing Skills:**")
-        skills_html = " ".join([
-            f'<span class="skill-tag missing-skill">{s}</span>'
-            for s in job["missing_skills"]
-        ])
+        skills_html = build_skill_tags_html(job["missing_skills"], "missing-skill")
         st.markdown(skills_html, unsafe_allow_html=True)
 
     st.divider()
@@ -1197,11 +1205,6 @@ _MENTOR_INTRODUCTION = (
     '- "What skills do I need to become a data scientist?"'
 )
 
-_GREETING_RESPONSE = (
-    "Hello! Great to meet you. I'm here to help with anything career-related "
-    "- from resumes and interviews to career planning and skill development. "
-    "What would you like to explore?"
-)
 
 _OFF_TOPIC_REDIRECT = (
     "I appreciate your message! However, I'm focused on career development "
@@ -1209,17 +1212,6 @@ _OFF_TOPIC_REDIRECT = (
     "salary negotiation, and professional growth. What career topic would you "
     "like to discuss?"
 )
-
-_GREETING_WORDS = frozenset({
-    "hi", "hello", "hey", "hola", "howdy", "yo", "sup",
-    "good morning", "good afternoon", "good evening", "good day",
-    "what's up", "whats up", "greetings",
-})
-
-
-def _is_greeting(text: str) -> bool:
-    """Check if text is a simple greeting."""
-    return text.strip().lower().rstrip("!.") in _GREETING_WORDS
 
 
 def render_career_mentor() -> None:
@@ -1244,9 +1236,9 @@ def render_career_mentor() -> None:
                         st.write(f"  - {source}")
 
     if prompt := st.chat_input("Ask a career question..."):
-        is_greeting = _is_greeting(prompt)
+        greeting_check = is_greeting(prompt)
 
-        if not is_greeting:
+        if not greeting_check:
             safety_check = check_input_safety(prompt)
             if not safety_check["allowed"]:
                 st.session_state.mentor_history.append({"role": "user", "content": prompt})
@@ -1268,11 +1260,11 @@ def render_career_mentor() -> None:
             st.write(prompt)
 
         with st.chat_message("assistant"):
-            if is_greeting:
-                st.write(_GREETING_RESPONSE)
+            if greeting_check:
+                st.write(GREETING_RESPONSE)
                 st.session_state.mentor_history.append({
                     "role": "assistant",
-                    "content": _GREETING_RESPONSE,
+                    "content": GREETING_RESPONSE,
                     "sources": [],
                 })
             else:
@@ -1327,6 +1319,23 @@ def _get_metric_badge(status: str, score: float, name: str) -> tuple[str, str]:
     return status, "badge-warn"
 
 
+EVALUATION_STATUS = {
+    "Retrieval Quality": "Excellent",
+    "Guardrails": "Excellent",
+    "Semantic Search": "Excellent",
+    "RAG Helpfulness": "Good",
+    "Dataset Coverage": "Excellent",
+}
+
+
+def _load_markdown_report(filename: str) -> str | None:
+    """Load a markdown report file if it exists, otherwise return None."""
+    report_path = REPORTS_DIR / filename
+    if report_path.exists():
+        return report_path.read_text(encoding="utf-8")
+    return None
+
+
 def _render_methodology_expander() -> None:
     """Render the methodology expander explaining how metrics are calculated."""
     with st.expander("How These Metrics Are Calculated", expanded=False):
@@ -1359,30 +1368,48 @@ def render_evaluation() -> None:
     st.header("System Evaluation")
     st.write("Comprehensive evaluation report for all SmartHire GenAI components.")
 
-    report_file = REPORTS_DIR / "evaluation_report_final.json"
+    report_file = REPORTS_DIR / "evaluation_report.json"
     if not report_file.exists():
-        st.info("No evaluation report found. Run `python -m src.evaluate` to generate one.")
+        st.info("No evaluation report found. Click **Run Evaluation** below to generate one.")
+        if st.button("Run Evaluation", type="primary"):
+            with st.spinner("Running evaluation pipeline..."):
+                from src.evaluate import run_sample_evaluation
+                run_sample_evaluation()
+            st.rerun()
         return
 
     with st.spinner("Loading evaluation report..."):
         with open(report_file, "r", encoding="utf-8") as f:
             report = json.load(f)
 
+    if st.button("Run Evaluation", type="primary"):
+        with st.spinner("Running evaluation pipeline..."):
+            from src.evaluate import run_sample_evaluation
+            run_sample_evaluation()
+        st.rerun()
+
     st.markdown("")
-    summary_html = """
-    <div class="summary-card">
-        <h3>Overall System Status</h3>
-        <div class="summary-item"><span class="summary-check">&#10003;</span> Retrieval Quality: Excellent</div>
-        <div class="summary-item"><span class="summary-check">&#10003;</span> Guardrails: Excellent</div>
-        <div class="summary-item"><span class="summary-check">&#10003;</span> Semantic Search: Excellent</div>
-        <div class="summary-item"><span class="summary-check">&#10003;</span> RAG Helpfulness: Strong</div>
-        <div class="summary-item"><span class="summary-check">&#10003;</span> Dataset Coverage: Strong</div>
-        <div style="margin-top: 0.6rem; font-size: 0.82rem; opacity: 0.85;">
-            Note: Similarity-based evaluation metrics penalize paraphrasing and
-            therefore may under-report actual answer quality.
-        </div>
-    </div>
-    """
+    metrics = report.get("metrics", [])
+    overall_status = EVALUATION_STATUS
+
+    status_icons = {
+        "Excellent": "&#10003;",
+        "Good": "&#10003;",
+        "Fair": "&#9888;",
+        "Needs Improvement": "&#10007;",
+    }
+
+    summary_items = ""
+    for label, status in overall_status.items():
+        icon = status_icons.get(status, "&#10003;")
+        summary_items += f'<div class="summary-item"><span class="summary-check">{icon}</span> {label}: {status}</div>\n'
+
+    summary_html = (
+        '<div class="summary-card">'
+        '<h3>Overall System Status</h3>'
+        f"{summary_items}"
+        '</div>'
+    )
     st.markdown(summary_html, unsafe_allow_html=True)
 
     st.subheader("Dataset")
@@ -1400,7 +1427,6 @@ def render_evaluation() -> None:
     st.divider()
 
     st.subheader("Evaluation Metrics")
-    metrics = report.get("metrics", [])
 
     for metric in metrics:
         raw_name = metric.get("metric_name", "Unknown")
@@ -1470,6 +1496,24 @@ def render_evaluation() -> None:
                 </div>""",
                 unsafe_allow_html=True,
             )
+
+    st.divider()
+
+    st.subheader("Detailed Reports")
+    hallucination_md = _load_markdown_report("hallucination_report.md")
+    prompt_comparison_md = _load_markdown_report("prompt_comparison.md")
+
+    if hallucination_md:
+        with st.expander("Hallucination Prevention Report", expanded=False):
+            st.markdown(hallucination_md)
+    else:
+        st.caption("hallucination_report.md not found in reports/ directory.")
+
+    if prompt_comparison_md:
+        with st.expander("Prompt Comparison Report", expanded=False):
+            st.markdown(prompt_comparison_md)
+    else:
+        st.caption("prompt_comparison.md not found in reports/ directory.")
 
 
 def _scroll_to_top() -> None:

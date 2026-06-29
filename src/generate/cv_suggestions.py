@@ -1,30 +1,16 @@
 """CV improvement suggestion generator with skill differentiation and caching."""
 
-import json
 import logging
 from typing import Optional
 
 from src.generate.prompts import RESUME_SUGGESTIONS_PROMPT
 from src.parsing.resume_parser import ResumeData, _parse_llm_json_response
-from src.config import GROQ_MODEL, LLM_TEMPERATURE, LLM_MAX_TOKENS
-from src.normalization import normalize_skills
+from src.config import GROQ_MODEL, LLM_MAX_TOKENS
+from src.utils import generate_cache_key, format_resume_text
 
 logger = logging.getLogger(__name__)
 
 _suggestions_cache: dict[str, Optional[dict]] = {}
-
-
-def _cache_key(resume_id: str, job_id: str) -> str:
-    """Generate cache key for CV suggestions.
-
-    Args:
-        resume_id: Resume identifier (e.g., name hash).
-        job_id: Job identifier (e.g., title+company hash).
-
-    Returns:
-        Cache key string.
-    """
-    return f"{resume_id}|{job_id}"
 
 
 class CVSuggestionGenerator:
@@ -70,7 +56,7 @@ class CVSuggestionGenerator:
             Dictionary with missing_skills, summary_rewrite, improvements.
         """
         if resume_id and job_id:
-            key = _cache_key(resume_id, job_id)
+            key = generate_cache_key("cv", resume_id, job_id)
             if key in _suggestions_cache:
                 logger.info(f"Returning cached CV suggestions for {key}")
                 return _suggestions_cache[key]
@@ -80,7 +66,7 @@ class CVSuggestionGenerator:
 
             client = Groq(api_key=self.api_key)
 
-            resume_text = self._format_resume(resume_data)
+            resume_text = format_resume_text(resume_data)
             prompt = RESUME_SUGGESTIONS_PROMPT.format(
                 resume_text=resume_text,
                 job_title=job_title,
@@ -106,7 +92,7 @@ class CVSuggestionGenerator:
             )
 
             if resume_id and job_id:
-                key = _cache_key(resume_id, job_id)
+                key = generate_cache_key("cv", resume_id, job_id)
                 _suggestions_cache[key] = suggestions
                 logger.info(f"Cached CV suggestions for {key}")
 
@@ -171,36 +157,4 @@ class CVSuggestionGenerator:
 
         return suggestions
 
-    def _format_resume(self, resume_data: ResumeData) -> str:
-        """Format resume data into readable text.
 
-        Args:
-            resume_data: Structured resume data.
-
-        Returns:
-            Formatted resume text.
-        """
-        parts = []
-        if resume_data.name:
-            parts.append(f"Name: {resume_data.name}")
-        if resume_data.email:
-            parts.append(f"Email: {resume_data.email}")
-        if resume_data.target_role:
-            parts.append(f"Target Role: {resume_data.target_role}")
-        if resume_data.summary:
-            parts.append(f"Summary: {resume_data.summary}")
-        if resume_data.skills:
-            parts.append(f"Skills: {', '.join(resume_data.skills)}")
-        if resume_data.experience:
-            parts.append(f"Experience: {'; '.join(resume_data.experience)}")
-        if resume_data.projects:
-            parts.append(f"Projects: {'; '.join(resume_data.projects)}")
-        if resume_data.education:
-            parts.append(f"Education: {'; '.join(resume_data.education)}")
-        if resume_data.certifications:
-            parts.append(f"Certifications: {'; '.join(resume_data.certifications)}")
-        if resume_data.awards:
-            parts.append(f"Awards: {'; '.join(resume_data.awards)}")
-        if resume_data.languages:
-            parts.append(f"Languages: {'; '.join(resume_data.languages)}")
-        return "\n".join(parts)

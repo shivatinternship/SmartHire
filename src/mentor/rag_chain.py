@@ -24,6 +24,7 @@ from src.config import (
     LLM_TEMPERATURE,
     LLM_MAX_TOKENS,
 )
+from src.utils import is_greeting, GREETING_RESPONSE
 
 logger = logging.getLogger(__name__)
 
@@ -41,24 +42,13 @@ def _get_text_splitter():
 
 
 def _get_embedding_model():
-    """Get or initialize the shared embedding model."""
-    from sentence_transformers import SentenceTransformer
+    """Get or initialize the shared embedding model.
 
-    return SentenceTransformer(EMBEDDING_MODEL)
+    Uses the singleton from src.search.embed to avoid loading the model twice.
+    """
+    from src.search.embed import get_model
 
-
-_GREETING_WORDS = frozenset({
-    "hi", "hello", "hey", "hola", "howdy", "yo", "sup",
-    "good morning", "good afternoon", "good evening", "good day",
-    "what's up", "whats up", "greetings",
-})
-
-
-def _is_greeting(text: str) -> bool:
-    """Check if text is a simple greeting."""
-    if not text:
-        return False
-    return text.strip().lower().rstrip("!.") in _GREETING_WORDS
+    return get_model(EMBEDDING_MODEL)
 
 
 def _format_chat_history(history: list[dict], max_turns: int = 5) -> str:
@@ -71,8 +61,8 @@ def _format_chat_history(history: list[dict], max_turns: int = 5) -> str:
 
     filtered = [
         m for m in history
-        if not (m["role"] == "user" and _is_greeting(m.get("content", "")))
-        and not (m["role"] == "assistant" and m.get("content") == _GREETING_RESPONSE)
+        if not (m["role"] == "user" and is_greeting(m.get("content", "")))
+        and not (m["role"] == "assistant" and m.get("content") == GREETING_RESPONSE)
     ]
 
     recent = filtered[-(max_turns * 2):]
@@ -83,13 +73,6 @@ def _format_chat_history(history: list[dict], max_turns: int = 5) -> str:
         if content:
             lines.append(f"{role}: {content}")
     return "\n".join(lines)
-
-
-_GREETING_RESPONSE = (
-    "Hello! Great to meet you. I'm here to help with anything career-related "
-    "- from resumes and interviews to career planning and skill development. "
-    "What would you like to explore?"
-)
 
 
 MENTOR_PROMPT_TEMPLATE = PromptTemplate(

@@ -15,7 +15,25 @@ CAREER_NOTES_DIR = DATA_DIR / "career_notes"
 VECTORSTORE_DIR = BASE_DIR / "vectorstore"
 REPORTS_DIR = BASE_DIR / "reports"
 
-GROQ_API_KEY: str = os.getenv("GROQ_API_KEY", "")
+def _get_groq_api_key() -> str:
+    """Resolve the Groq API key from environment or Streamlit secrets.
+
+    Priority:
+      1. Environment variable (works locally with .env)
+      2. Streamlit secrets (works on Streamlit Cloud)
+    """
+    key = os.getenv("GROQ_API_KEY", "")
+    if key:
+        return key
+    try:
+        import streamlit as st  # noqa: F811
+
+        return st.secrets["GROQ_API_KEY"]
+    except Exception:
+        return ""
+
+
+GROQ_API_KEY: str = _get_groq_api_key()
 GROQ_MODEL: str = "llama-3.3-70b-versatile"
 EMBEDDING_MODEL: str = "BAAI/bge-small-en-v1.5"
 EMBEDDING_DIMENSION: int = 384

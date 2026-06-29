@@ -30,6 +30,7 @@ Thumbs.db
 # Vector store (large files)
 vectorstore/*.faiss
 vectorstore/*.pkl
+vectorstore/mentor/
 
 # Data files
 data/resumes/*.pdf

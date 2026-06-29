@@ -222,6 +222,16 @@ python -m src.evaluate_retrieval
 
 ---
 
-## 10. Conclusion
+## 10. Overall System Status
+
+| Component | Status | Details |
+|-----------|--------|---------|
+| Retrieval Quality | Excellent | Hit@5: 100% on 3,000 real Kaggle jobs |
+| Guardrails | Excellent | 100% accuracy (10/10 test cases) |
+| Semantic Search | Excellent | FAISS IndexFlatIP with BAAI/bge-small-en-v1.5 embeddings |
+| RAG Helpfulness | Good | 83% multi-signal actionability score |
+| Dataset Coverage | Excellent | 3,000 real job descriptions (Indeed + LinkedIn) |
+
+## 11. Conclusion
 
 The SmartHire GenAI system now operates on a real-world job corpus of **3,000 listings** sourced from Indeed and LinkedIn. The preprocessing pipeline handles cleaning, deduplication, skill normalization, and embedding generation. Retrieval achieves **100% Hit@5** on domain-specific queries, confirming that the semantic search is production-quality for a capstone demonstration.

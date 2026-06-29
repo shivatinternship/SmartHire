@@ -369,18 +369,3 @@ def deduplicate_skills(skills: list[str]) -> list[str]:
             result.append(skill)
 
     return result
-
-
-def normalize_skill_list_for_comparison(skills: list[str]) -> list[str]:
-    """Normalize skills for comparison purposes (case-insensitive, aliases resolved).
-
-    Returns a deduplicated set of normalized skill names that can be used
-    for matching across resume parsing, job matching, and CV suggestions.
-
-    Args:
-        skills: Raw list of skill names.
-
-    Returns:
-        Normalized, deduplicated list.
-    """
-    return normalize_skills(skills)

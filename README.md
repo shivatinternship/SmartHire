@@ -168,7 +168,6 @@ smarthire-genai/
 │   └── jobs.json               # Job metadata
 │
 └── reports/                    # Evaluation reports
-    ├── evaluation_report_final.json
     ├── evaluation_report.json
     └── retrieval_evaluation.json
 ```
@@ -334,6 +333,16 @@ Reports are saved in the `reports/` directory.
 ### Written Evaluation Report
 
 See `FINAL_REPORT.md` for the comprehensive final evaluation report covering all evaluation requirements.
+
+### Overall System Status
+
+| Component | Status | Details |
+|-----------|--------|---------|
+| Retrieval Quality | Excellent | Hit@5: 100% on 3,000 real Kaggle jobs |
+| Guardrails | Excellent | 100% accuracy (10/10 test cases) |
+| Semantic Search | Excellent | FAISS IndexFlatIP with BAAI/bge-small-en-v1.5 embeddings |
+| RAG Helpfulness | Good | 83% multi-signal actionability score |
+| Dataset Coverage | Excellent | 3,000 real job descriptions (Indeed + LinkedIn) |
 
 ### System Metrics
 

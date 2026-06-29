@@ -11,7 +11,8 @@ import httpx
 
 from src.generate.prompts import RESUME_TAILOR_PROMPT
 from src.parsing.resume_parser import ResumeData, _parse_llm_json_response
-from src.config import GROQ_MODEL, LLM_TEMPERATURE, LLM_MAX_TOKENS
+from src.config import GROQ_MODEL, LLM_MAX_TOKENS
+from src.utils import generate_cache_key, format_resume_text
 
 logger = logging.getLogger(__name__)
 
@@ -28,19 +29,6 @@ REQUIRED_RESULT_KEYS = {
 }
 
 _tailor_cache: dict[str, Optional[dict]] = {}
-
-
-def _cache_key(resume_id: str, job_id: str) -> str:
-    """Generate cache key for tailoring results.
-
-    Args:
-        resume_id: Resume identifier.
-        job_id: Job identifier.
-
-    Returns:
-        Cache key string.
-    """
-    return f"tailor|{resume_id}|{job_id}"
 
 
 def _validate_result(result: Optional[dict]) -> bool:
@@ -233,7 +221,7 @@ class ResumeTailor:
             Dictionary with tailored resume and supporting data or None if failed.
         """
         if resume_id and job_id:
-            key = _cache_key(resume_id, job_id)
+            key = generate_cache_key("tailor", resume_id, job_id)
             if key in _tailor_cache:
                 logger.info(f"Returning cached tailoring result for {key}")
                 return _tailor_cache[key]
@@ -246,7 +234,7 @@ class ResumeTailor:
             max_retries=0,
         )
 
-        resume_text = self._format_resume(resume_data)
+        resume_text = format_resume_text(resume_data)
         match_analysis_text = self._format_match_analysis(
             match_analysis, ats_score, matched_skills, missing_skills, recommendations
         )
@@ -310,7 +298,7 @@ class ResumeTailor:
                     continue
 
                 if resume_id and job_id:
-                    key = _cache_key(resume_id, job_id)
+                    key = generate_cache_key("tailor", resume_id, job_id)
                     _tailor_cache[key] = result
                     logger.info(f"Cached tailoring result for {key}")
 
@@ -325,40 +313,6 @@ class ResumeTailor:
 
         logger.error(f"All {MAX_RETRIES} tailoring attempts failed. Last error: {last_error}")
         return None
-
-    def _format_resume(self, resume_data: ResumeData) -> str:
-        """Format resume data into structured text for LLM.
-
-        Args:
-            resume_data: Structured resume data.
-
-        Returns:
-            Formatted resume text.
-        """
-        parts = []
-        if resume_data.name:
-            parts.append(f"Name: {resume_data.name}")
-        if resume_data.email:
-            parts.append(f"Email: {resume_data.email}")
-        if resume_data.target_role:
-            parts.append(f"Target Role: {resume_data.target_role}")
-        if resume_data.summary:
-            parts.append(f"Professional Summary: {resume_data.summary}")
-        if resume_data.skills:
-            parts.append(f"Skills: {', '.join(resume_data.skills)}")
-        if resume_data.experience:
-            parts.append(f"Experience: {'; '.join(resume_data.experience)}")
-        if resume_data.projects:
-            parts.append(f"Projects: {'; '.join(resume_data.projects)}")
-        if resume_data.education:
-            parts.append(f"Education: {'; '.join(resume_data.education)}")
-        if resume_data.certifications:
-            parts.append(f"Certifications: {'; '.join(resume_data.certifications)}")
-        if resume_data.awards:
-            parts.append(f"Awards: {'; '.join(resume_data.awards)}")
-        if resume_data.languages:
-            parts.append(f"Languages: {'; '.join(resume_data.languages)}")
-        return "\n".join(parts)
 
     def _format_match_analysis(
         self,
