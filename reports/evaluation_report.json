@@ -174,7 +174,7 @@
     "career_mentor": {
       "status": "operational",
       "rag": "FAISS + Groq",
-      "knowledge_base": "7 files"
+      "knowledge_base": "25 files"
     },
     "guardrails": {
       "status": "operational",
@@ -188,7 +188,7 @@
       "mitigation": "Metrics are framework-demonstration only. Actual RAG quality is ensured by structured prompts, context injection, and hallucination-prevention instructions."
     },
     {
-      "risk": "Career mentor knowledge base is limited to 7 files",
+      "risk": "Career mentor knowledge base is limited to 25 files",
       "severity": "low",
       "mitigation": "Knowledge base is extensible by adding .txt/.md files to data/career_notes/. Current coverage is sufficient for demo."
     },

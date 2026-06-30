@@ -526,7 +526,7 @@ def run_sample_evaluation() -> str:
         "resume_parser": {"status": "operational", "model": "Llama 3.3 70B", "formats": ["PDF", "DOCX"]},
         "job_search": {"status": "operational", "engine": "FAISS IndexFlatIP", "index_size": 3000},
         "cv_suggestions": {"status": "operational", "model": "Llama 3.3 70B"},
-        "career_mentor": {"status": "operational", "rag": "FAISS + Groq", "knowledge_base": "7 files"},
+        "career_mentor": {"status": "operational", "rag": "FAISS + Groq", "knowledge_base": "25 files"},
         "guardrails": {"status": "operational", "accuracy": "100%"},
     })
 
@@ -537,7 +537,7 @@ def run_sample_evaluation() -> str:
             "mitigation": "Metrics are framework-demonstration only. Actual RAG quality is ensured by structured prompts, context injection, and hallucination-prevention instructions.",
         },
         {
-            "risk": "Career mentor knowledge base is limited to 7 files",
+            "risk": "Career mentor knowledge base is limited to 25 files",
             "severity": "low",
             "mitigation": "Knowledge base is extensible by adding .txt/.md files to data/career_notes/. Current coverage is sufficient for demo.",
         },

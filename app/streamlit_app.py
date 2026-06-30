@@ -121,8 +121,8 @@ def _generate_resume_docx(tailored: dict) -> bytes:
     return buffer.getvalue()
 
 st.set_page_config(
-    page_title="SmartHire GenAI",
-    page_icon="🚀",
+    page_title="SmartHire",
+    page_icon="💼",
     layout="wide",
     initial_sidebar_state="expanded",
 )
@@ -319,7 +319,7 @@ def render_sidebar() -> str:
         Selected page name.
     """
     with st.sidebar:
-        st.title("SmartHire GenAI")
+        st.title("SmartHire")
         st.caption("AI-Powered Career Platform")
 
         st.divider()
@@ -587,11 +587,11 @@ def _run_upload_pipeline(text: str) -> bool:
 
 def render_home() -> None:
     """Render the Home page."""
-    st.markdown('<div class="main-header">SmartHire GenAI</div>', unsafe_allow_html=True)
+    st.markdown('<div class="main-header">SmartHire</div>', unsafe_allow_html=True)
     st.markdown('<div class="sub-header">Resume Matching & AI Career Mentor</div>', unsafe_allow_html=True)
 
     st.markdown("""
-    Welcome to **SmartHire GenAI** - your intelligent career development platform powered by
+    Welcome to **SmartHire** - your intelligent career development platform powered by
     Generative AI. Upload your resume, discover matching jobs, and get personalized career guidance.
 
     ### How It Works
@@ -1366,27 +1366,16 @@ or blocked. Tested against harmful, off-topic, and career-related queries.
 def render_evaluation() -> None:
     """Render the Evaluation page."""
     st.header("System Evaluation")
-    st.write("Comprehensive evaluation report for all SmartHire GenAI components.")
+    st.write("Comprehensive evaluation report for all SmartHire components.")
 
     report_file = REPORTS_DIR / "evaluation_report.json"
     if not report_file.exists():
-        st.info("No evaluation report found. Click **Run Evaluation** below to generate one.")
-        if st.button("Run Evaluation", type="primary"):
-            with st.spinner("Running evaluation pipeline..."):
-                from src.evaluate import run_sample_evaluation
-                run_sample_evaluation()
-            st.rerun()
+        st.warning("No evaluation report found.")
         return
 
     with st.spinner("Loading evaluation report..."):
         with open(report_file, "r", encoding="utf-8") as f:
             report = json.load(f)
-
-    if st.button("Run Evaluation", type="primary"):
-        with st.spinner("Running evaluation pipeline..."):
-            from src.evaluate import run_sample_evaluation
-            run_sample_evaluation()
-        st.rerun()
 
     st.markdown("")
     metrics = report.get("metrics", [])
