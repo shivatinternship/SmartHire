@@ -4,8 +4,7 @@ An AI-powered career platform that analyzes resumes, matches jobs, and provides 
 
 ## Live Demo
 
-- Streamlit Application: <DEPLOYED_STREAMLIT_URL>
-- GitHub Repository: <GITHUB_REPOSITORY_URL>
+- Streamlit Application: https://smarthired.streamlit.app/
 
 ## Features
 
